@@ -1,0 +1,133 @@
+<!-- 日果乳坊LaitGood 頁面基本版型 -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--頁籤標題區-->
+        <title>{% block title %}日果乳坊LaitGood 頁面模板{% endblock %}</title> 
+
+        <!-- 基本配備區 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--避免隨便縮放-->
+        <meta charset="utf-8"> <!--辨識字符-->
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='CSS/CSSstyle.css') }}"> <!--CSS樣式主檔案-->
+        <link rel="icon" href="{{ url_for('static', filename='img/ICON/LaitGoodLOGOicon.ico') }}"> <!--透過flask更改頁籤上的ICON，必須要是ICON檔-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!--JQoery功能-->
+        {% block link %}{% endblock %}
+
+        <!-- JS 程式碼區 -->
+        <script>  // 側邊TOP按扭功能
+            $(function(){
+                $('#BackTop').click(function(){ 
+                    $('html,body').animate({scrollTop:0}, 333);
+                });
+                $(window).scroll(function() {
+                    if ( $(this).scrollTop() > 300 ){
+                        $('#BackTop').fadeIn(222);
+                    } else {
+                        $('#BackTop').stop().fadeOut(222);
+                    }
+                }).scroll();
+            });
+        </script>
+    </head>
+
+    <body id="homepagestyle">
+        <!-- 頁首區 -->
+        <header id="pageheader">
+            <div class="LOGO"> <!--重新跳轉到首頁-->
+                <a href="{{ url_for('LaitGood') }}"><img src="/static/img/LaitGoodLOGO_wobackground.png", width="150" alt="日果LaitGood"></a> 
+            </div>
+            <div id="row_header">
+                <div id="headline">
+                    <div id="searchbar">                     
+                        <form method="POST" action="{{ url_for('search') }}" >                   
+                            <input class="searchtext" type="text" placeholder="{{_('搜尋產品關鍵字')}}" name="search">
+                            <button class="searchbtn">{{ _('搜尋') }}</button>               
+                        </form>
+                    </div>
+                    <div id="usersection">
+                        {% if current_user.is_authenticated %}
+                        <div class="memberdown">                            
+                            <span style="cursor: pointer;">{{ current_user.username }}</span>            
+                            <span class="usericon"><img src="/static/img/ICON/user.png", onmouseover="this.src='/static/img/ICON/user_color.png'", onmouseout="this.src='/static/img/ICON/user.png'", width="30" alt="會員中心"></span> <!--註冊/登入->跳轉會員中心頁面-->
+                            <div class="memberdown-content">
+                                <a href="#">{{ _('會員中心') }}</a>
+                                <a href="{{ url_for('change_password') }}">{{ _('變更密碼') }}</a>
+                                <a href="{{ url_for('LaitGoodmember_logout') }}">{{ _('登出') }}</a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="usericon"><a href="{{ url_for('LaitGoodmember_login') }}"><img src="/static/img/ICON/user.png", onmouseover="this.src='/static/img/ICON/user_color.png'", onmouseout="this.src='/static/img/ICON/user.png'", width="30" alt="會員中心"></a></div>
+                        {% endif %}
+                        <div class="usericon"><img src="/static/img/ICON/shopping-cart.png", onmouseover="this.src='/static/img/ICON/shopping-cart_color.png'", onmouseout="this.src='/static/img/ICON/shopping-cart.png'", width="30" alt="購物車"></div> <!--跳轉購物車頁面-->
+                    </div>
+                    <div id="lang_change">
+                        <div class="langicon"><img src="/static/img/ICON/globe.png", width="20" alt="語言"></div> <!--跳出下拉式選單改語言-->
+                        <div class="langicon">
+                            <button class="langbtn">{{ _('語言') }}</button>
+                            <div class="langicon-content">
+                            <a href="{{ url_for('LaitGood_zh') }}"> {{ _('繁體中文') }} </a>
+                            <a href="{{ url_for('LaitGood_en') }}">{{ _('英文') }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                         
+                <!-- 導覽列區 -->
+                <nav id="topic_option">
+                    <div class="dropdown">
+                        <button class="dropbtn"> {{ _('關於我們') }}</button>
+                        <div class="dropdown-content">
+                        <a href="#">{{ _('品牌故事') }}</a>
+                        <a href="#">{{ _('好評推薦') }}</a>
+                        <a href="#">{{ _('品質保證') }}</a>
+                        </div>
+                    </div>
+                    <div class="dropdown"><button class="dropbtn"><a href="#">{{ _('最新消息') }}</a></button></div> <!--跳轉最新消息頁面-->
+                    <div class="dropdown"><button class="dropbtn"><a href="#">{{ _('產品介紹') }}</a></button></div> <!--跳轉產品介紹頁面-->
+                    <div class="dropdown"><button class="dropbtn"><a href="{{ url_for('LaitGoodmember_shop') }}">{{ _('線上購物') }}</a></button></div>
+                    <div class="dropdown"><button class="dropbtn"><a href="#">{{ _('聯絡我們') }}</button></a></div> <!--跳轉聯絡我們頁面-->
+                </nav>       
+            </div>
+        </header>
+        <hr class="hrline"> 
+        
+        
+        <!-- 頁面主內容區 -->
+        <main>
+            {% block main %}
+            <p>頁面主內容</p>
+            {% endblock %}
+        </main>
+        
+
+        <!-- 頁尾區 -->
+        <hr class="hrline">
+        <footer id="comp_footer">
+            <div id="comp_logo">  <!--重新跳轉到首頁-->
+                <a href="{{ url_for('LaitGood') }}"><img src="/static/img/LaitGoodLOGO_wobackground.png", width="200" alt="日果LaitGood"></a>
+            </div>
+            <div id="comp_inf">
+                <p class="comp_infs">{{ _('公司名稱： 日果乳坊有限公司') }}</p>
+                <p class="comp_infs">{{ _('公司地址： 402 台中市南區興大路145號 (國立中興大學)') }}</p>
+                <p class="comp_infs">{{ _('公司電話： 04-XXXX-XXXX') }}</p>
+                <p class="comp_infs">{{ _('客服時間：週一至週五 9:00~12:00 | 13:00~18:00') }}</p>
+                <p class="comp_infs">{{ _('登記字號： X-XXXXXXXXX-XXXXX-X') }}</p>
+            </div>
+            <div id="socialmedia">
+                <div class="socialmediaicon"><a href="https://www.facebook.com/" target="_blank"><img src="/static/img/ICON/facebook.png", onmouseover="this.src='/static/img/ICON/facebook_color.png'", onmouseout="this.src='/static/img/ICON/facebook.png'", height="30" alt="FB"></a></div> <!--跳轉到FB粉專-->
+                <div class="socialmediaicon"><a href="https://www.instagram.com/" target="_blank"><img src="/static/img/ICON/instagram.png", onmouseover="this.src='/static/img/ICON/instagram_color.png'", onmouseout="this.src='/static/img/ICON/instagram.png'", height="30" alt="IG"></a></div> <!--跳轉到IG粉專-->
+                <div class="socialmediaicon"><a href="https://twitter.com/" target="_blank"><img src="/static/img/ICON/twitter.png", onmouseover="this.src='/static/img/ICON/twitter_color.png'", onmouseout="this.src='/static/img/ICON/twitter.png'", height="30" alt="IG"></a></div> <!--跳轉到twitter官方帳號-->
+                <div class="socialmediaicon"><a href="https://line.me/" target="_blank"><img src="/static/img/ICON/line.png", onmouseover="this.src='./static/img/ICON/line_color.png'", onmouseout="this.src='/static/img/ICON/line.png'", height="30" alt="LINE"></a></div> <!--跳轉到LINE加好友QRCODE-->
+                <div class="socialmediaicon"><a href="mailto:nm9140322@gmail.com"><img src="/static/img/ICON/email.png", onmouseover="this.src='/static/img/ICON/email_color.png'", onmouseout="this.src='/static/img/ICON/email.png'", height="30" alt="MAIL"></a></div> <!--跳轉到寄MAIL-->
+            </div>
+        </footer>
+
+        <!--側邊TOP按鈕區 -->
+        <aside> <!---->
+            <button type="button" id="BackTop" class="toTop-arrow"></button> 
+        </aside>
+        {% block script %}{% endblock %}
+    </body>
+</html>
+

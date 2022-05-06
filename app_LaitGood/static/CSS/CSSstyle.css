@@ -1,0 +1,595 @@
+/* ↓ 整個頁面統一的style，Microsoft JhengHei是微軟正黑體 ↓ */
+#homepagestyle{
+    background-color:rgb(232, 252, 242); 
+    font-family: "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif, serif;
+    color: rgb(47, 79, 79);
+}
+
+/* 透明漸變的線 */
+.hrline{
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(46, 186, 221, 0.1), rgba(46, 186, 221, 0.8), rgba(46, 186, 221, 0.1));
+}
+
+.flashstyle{
+    font-weight: bold;
+    font-size: large;
+    height:max-content;
+    width:max-content;
+    padding:2%;
+    border-radius: 8px;
+    background-color: rgba(113, 215, 184, 0.632);
+}
+
+/* 設定還沒有瀏覽過的連結 */
+a:link{
+    text-decoration:none;
+    color: inherit;
+}
+
+/* 設定已經瀏覽過的連結 */
+a:visited {
+    text-decoration:none;
+    color: inherit;
+}
+
+/* 設定滑鼠移經的連結 */
+a:hover {
+    text-decoration:none;
+    color: inherit;
+}
+
+/* 設定正在點選的連結  */
+a:active {
+    text-decoration:none;
+    color: inherit;
+}
+
+/* ↓ 抄別人的CODE，做出回頂層TOP按扭的外觀 ↓ */
+/* 40px */
+.toTop-arrow {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 33%;
+    opacity: 0.6;
+    background: rgba(1, 33, 41, 0.897);
+    cursor: pointer;
+    position:fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: none;
+}
+.toTop-arrow::before, .toTop-arrow::after {
+    width: 18px;
+    height: 5px;
+    border-radius: 3px;
+    background: rgb(179, 255, 0);
+    position: absolute;
+    content: "";
+}
+.toTop-arrow::before {
+    transform: rotate(-45deg) translate(0, -50%);
+    left: 0.5rem;
+}
+.toTop-arrow::after {
+    transform: rotate(45deg) translate(0, -50%);
+    right: 0.5rem;
+}
+.toTop-arrow:focus {outline: none;}
+/* ↑ 抄別人的CODE，做出回頂層TOP按扭的外觀 ↑ */
+
+ /* ↓ 抄別人的CODE，做出首圖自動輪轉的效果 ↓ */
+.coverflow{
+    width: 700px;
+    height: 410px;
+    position:relative;
+    margin: 1%;
+}
+.coverflow>a{
+    display: block;
+    position: absolute;
+    top:0;
+    left:0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+/*當圖片數量增加，影片長度需更改，變為5s*圖片數量*/
+-webkit-animation: silder 15s linear infinite;
+animation: silder 15s linear infinite;
+}
+.coverflow>a>img{
+    max-width: 100%;
+}
+/*動畫關鍵影格*/
+@-webkit-keyframes silder {
+    3% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    27% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    30% {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+}
+@keyframes silder {
+    3% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    27% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    30% {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+}
+/*每個圖片各延遲5秒*/
+.coverflow>a:nth-child(3) {
+    -webkit-animation-delay: 10s;
+            animation-delay: 10s;               
+}
+.coverflow>a:nth-child(2) {
+    -webkit-animation-delay: 5s;
+            animation-delay: 5s;
+}
+.coverflow>a:nth-child(1) {
+    -webkit-animation-delay: 0s;
+            animation-delay: 0s;    
+}
+/*滑入時停止播放*/
+.coverflow:hover>a{
+-webkit-animation-play-state: paused;
+        animation-play-state: paused;
+}
+ /* ↑ 抄別人的CODE，做出首圖自動輪轉的效果↑ */
+
+ /* ↓ 抄別人的CODE，做出產品圖摺頁輪轉的效果，也可以手動轉 ↓ */
+ * {
+    margin: 0;
+    padding: 0;
+}
+.box{
+    width: 100%;
+    height: 340px;
+    position: relative;
+    margin-top: 10px;
+}
+.list{
+    width: 80%;
+    height: 300px;
+    overflow: hidden;
+    position: absolute;
+    left: 20%;
+    right: 10%;
+    margin-top: 70px;
+
+}
+.leftButton,.rightButton{
+    width: 50px;
+    position: absolute;
+    margin-top: 100px;
+    margin-right: 1%;
+    margin-left: 1%;
+    cursor: pointer;
+
+}
+.rightButton{
+    right: 0px;
+    text-align: right;
+}
+li {
+    position: absolute;
+    top: 0;
+    left: 0;
+    list-style: none;
+    transition: all 0.3s ease-out;
+    opacity: 0;
+}
+.productimg{
+    width: 500px;
+    border: none;
+    float: left;
+}
+/*首頁第一張*/
+.center {
+    transform: translate3d(35%, 0, 0) scale(1);
+    opacity: 1;
+    z-index: 3;
+}
+/*右側圖片*/
+.right {
+    transform: translate3d(70%, 0, 0) scale(0.8);
+    transform-origin: 100% 50%;
+    opacity: 0.6;
+    z-index: 2;
+}
+/*左側圖片*/
+.left {
+    transform: translate3d(0, 0, 0) scale(0.8);
+    transform-origin: 0 50%;
+    opacity: 0.6;
+    z-index: 2;
+}
+/*隱藏圖片*/
+.hidden{
+    transform: translate3d(0, 0, 0) scale(0.8);
+    opacity: 0;
+    z-index: 0;
+}
+.buttons {
+    width: 280px;
+    height: 30px;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -140px;
+    position: absolute;
+    text-align: center;
+}
+.little{
+    display: block;
+    width: 35px;
+    height: 5px;
+    float: left;
+    margin-left: 10px;
+    background: rgb(144, 238, 144);
+    border-width: 0px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.little:hover{
+    cursor: pointer;
+}
+.changecolor{
+    background-color: rgb(143, 188, 143);
+}
+ /* ↑ 抄別人的CODE，做出出產品圖摺頁輪轉輪轉的效果，也可以手動轉 ↑ */
+
+
+ 
+/* ↓ 自己努力的部分 ↓ */
+/*↓ 尾欄的部分 ↓ */
+#comp_footer{
+    display: flex;
+    position: relative;
+    background-color: rgb(173, 232, 236);
+}
+
+#comp_logo{
+    flex: none;
+    justify-content: center; align-items: center;
+    background-color: rgb(175, 236, 230);
+    cursor: pointer;
+}
+
+#comp_inf{
+    flex: auto;
+    margin-top:20px;
+}
+
+.comp_infs{
+    font-size: larger;
+    margin: 5px;
+    margin-left: 20px;
+
+}
+
+#socialmedia{
+    display: flex;
+    background-color: rgb(157, 240, 201);
+    width: 250px;
+    height: 50px;
+    margin-right: 1%;
+    margin-top: 30px;
+}
+
+.socialmediaicon{
+    margin: 10px;
+}
+
+
+/*↑ 尾欄的部分 ↑ */
+
+/*↓ 頁首欄的部分 ↓ */
+#pageheader{
+    display: flex;
+    align-items: center;
+    position : sticky;
+    top: 0;
+    left: 0;
+    z-index:999;
+    background-color: rgb(232, 250, 232);
+}
+
+.LOGO{
+    flex: none;
+    margin: 1%;
+    margin-left: 5%;
+    cursor: pointer;
+    /* background-color:red; */
+}
+#row_header{
+    margin-top:20px;
+    flex: auto;
+}
+
+#headline{
+    display: flex;
+    justify-content: flex-end;
+    /* background-color: blue; */
+}
+
+#searchbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: none;
+    margin-left: 50%;
+    /* background-color: green; */
+
+}
+
+.searchtext{
+    padding: 6px;
+    font-weight: lighter;
+    width:200px;
+    border: none;
+    outline:none;
+}
+
+
+.searchbtn{
+    background-color: rgba(148, 241, 206, 0.89);
+    color: rgb(14, 41, 30);
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#searchbar:hover .searchbtn {
+    background-color: rgba(96, 204, 163, 0.89);
+    font-weight: bold;
+}
+
+#usersection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    /* background-color:orange; */
+
+}
+
+.usericon{
+    margin-left: 30px;
+    margin-right: 30px;
+    cursor: pointer;
+    /* background-color: gray; */
+}
+
+#lang_change{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1%;
+    /* background-color:yellow; */
+
+}
+
+.langicon{
+    margin-left: 5px;
+    /* background-color:white; */
+
+}
+
+.langbtn{
+    background-color: rgb(232, 252, 242);
+    color: rgb(14, 41, 30);
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+/* 下拉式選單框 (Hidden by Default) */
+.langicon-content {
+    display: none;
+    position: absolute;
+    background-color: #eaf7f4;
+    min-width:auto;
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
+}
+
+/* 下拉式選單內容 Links inside the dropdown */
+.langicon-content a {
+    color: black;
+    font-size:smaller;
+    font-weight: lighter;
+    padding: 5px;
+    text-decoration: none;
+    display: block;
+}
+
+/* 下拉式選單滑鼠懸浮時樣式 Change color of dropdown links on hover */
+.langicon-content a:hover {
+    background-color: rgba(218, 221, 219, 0.808);
+    font-weight: bold;
+}
+
+/* 下拉式選單滑鼠懸浮時才顯示 Show the dropdown menu on hover */
+.langicon:hover .langicon-content {
+    display: block;
+}
+
+/* 選單標題按鈕滑鼠懸浮時樣式 Change the background color of the dropdown button when the dropdown content is shown */
+.langicon:hover .langbtn {
+    background-color: rgba(206, 226, 216, 0.774);
+    font-weight: bold;
+}
+
+/*↑ 頁首欄的部分 ↑ */
+
+/* 首圖配置 */
+#hompage_pic{
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    background-color: rgb(213, 247, 235);
+}
+
+.slogan{
+    text-align:end;
+    font-size: x-large;
+    font-weight:bold;
+    margin:3%
+}
+
+
+/* 團隊故事介紹 */
+#storyintro{
+    display: flex;
+    background-color: rgb(173, 232, 240);
+
+}
+
+.more{
+    font-style:italic;
+    text-align:end;
+    color:rgb(98, 107, 105);
+    font-weight: lighter;
+    cursor: pointer;
+}
+
+.CEOpic{
+    justify-content: center;
+    align-items: center; 
+    margin: 1%;
+}
+
+.larger{
+    font-size:xx-large;
+    font-weight: bold;
+    color: rgb(54, 87, 83);
+}
+
+.emphasize{
+    font-size: larger;
+    margin:10%
+}
+
+/* 產品圖介紹 */
+.subtitle{
+    font-size: larger;
+    font-weight: bold;
+    text-align:center;
+    margin-top:2%
+}
+
+
+/* 抄作業，橫欄下拉式選單*/
+
+/*↓ 整個橫欄位置的部分 ↓ */
+#topic_option{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 10px;
+    margin-right: 8%;
+    /* background-color:pink; */
+}
+
+/* 橫欄項目的配置 */
+.dropdown {
+    flex: none;
+    margin-left: auto;
+    margin-top: 50px;
+}
+
+/* 選單標題按鈕 */
+.dropbtn {
+    background-color: rgb(232, 250, 232);
+    color: rgb(14, 41, 30);
+    padding: 16px;
+    font-size: large;
+    border: none;
+    cursor: pointer;
+}
+
+/* 下拉式選單框 (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #eaf7f4;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* 下拉式選單內容 Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* 下拉式選單滑鼠懸浮時樣式 Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: rgba(230, 235, 231, 0.774);
+    color:rgba(99, 206, 165, 0.914);
+}
+
+/* 下拉式選單滑鼠懸浮時才顯示 Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 選單標題按鈕滑鼠懸浮時樣式 Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: rgba(198, 212, 198, 0.884);
+}
+
+
+
+/* 會員登入的配置 */
+.memberdown {
+    flex: none;
+    margin-left: 30px;   
+}
+
+/* 下拉式選單框 (Hidden by Default) */
+.memberdown-content {
+    display: none;
+    position: absolute;
+    background-color: #eaf7f4;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);   
+}
+
+/* 下拉式選單內容 Links inside the dropdown */
+.memberdown-content a {
+    color: black;
+    text-align:center;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* 下拉式選單滑鼠懸浮時樣式 Change color of dropdown links on hover */
+.memberdown-content a:hover {
+    background-color: rgba(230, 235, 231, 0.774);
+    color:rgba(99, 206, 165, 0.914);
+}
+
+/* 下拉式選單滑鼠懸浮時才顯示 Show the dropdown menu on hover */
+.memberdown:hover .memberdown-content {
+    display: block;
+}

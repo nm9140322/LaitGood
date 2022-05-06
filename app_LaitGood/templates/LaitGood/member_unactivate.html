@@ -1,0 +1,20 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 會員驗證{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/login.css') }}">
+{% endblock %}
+
+{% block main %}
+<section>
+    <!-- 帳號未啟動的說明頁面 -->
+    <div class="flashstyle">
+        <p>{{ current_user.username }} 您好，</p>
+        <p>請先至您的註冊信箱收信並啟動帳號，謝謝。</p>
+        <p>若您的驗證信函已過期，請點選：</p>
+        <a class="hreftext"  href="{{ url_for('re_userconfirm') }}">重發驗證信</a>
+    </div>
+
+</section>
+{% endblock %}

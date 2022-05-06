@@ -1,0 +1,130 @@
+<!-- 利用利用jinja模板語法直接繼承基礎模板做出的會員登入頁面 -->
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 會員登入{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/login.css') }}">
+{% endblock %}
+
+{% block main %}
+<!-- 帳密登入區 -->
+<section id="login_frame">
+    <form method="post">
+        <div class="login_user">
+            <label class="label_input">帳&nbsp&nbsp&nbsp&nbsp號</label>
+            <input class="searchtext" id="username" type="text" placeholder="輸入您的E-mail">
+        </div>
+        <div class="login_user">
+            <label class="label_input">密&nbsp&nbsp&nbsp&nbsp碼</label>
+            <input class="searchtext" id="password" type="password" placeholder="輸入您的密碼" >
+        </div>
+        <div class="login_user">
+            <label class="label_input">驗證碼</label>
+            <input class="searchtext" id="input-val" type="text" placeholder="點圖可更換驗證碼（大小寫不拘）">
+            <canvas id="canvas" width="100" height="30"></canvas>
+        </div>
+        <hr class="hrline">
+        <div id="login_control">
+            <div class="login_href">
+                <a class="hreftext" href="#">重發驗證信</a> <!-- 重發驗證信的功能 -->
+                <a class="hreftext" href="forget_pwd.html">忘記密碼？</a> <!-- 忘記密碼的功能 -->        
+            </div>
+            <div>
+                <button class="btn_login">登&nbsp&nbsp入</button>
+            </div>                  
+        </div>
+        
+        <div class="login_href">
+            <p ><span class="logintext">還沒有帳號嗎？</span><a class="hreftext" href="register.html">註冊</a></p>
+             <!-- 跳轉到註冊頁面的功能 -->
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block script %}
+<script> //登入及圖形驗證碼功能
+    $(function(){
+        var show_num = [];
+        draw(show_num);
+        $("#canvas").on('click',function(){
+            draw(show_num);
+        })
+        $(".btn_login").on('click',function(){
+            var username = document.getElementById("username");
+            var pass = document.getElementById("password");
+            var val = $("#input-val").val().toLowerCase();
+            var num = show_num.join("");
+            
+            if (username.value == "" || pass.value  == "") {
+                alert("請輸入帳號及密碼");
+            } else if (val=='') {
+                alert("請輸入驗證碼");    
+            } else if(username.value == "admin" && pass.value == "123456" && val != num){
+                alert('驗證碼錯誤！請重新輸入！');
+                $("#input-val").val('');
+            } else if(username.value == "admin" && pass.value == "123456" && val == num){
+                alert('提交成功！');
+                $("#input-val").val('');
+                // window.location.href="welcome.html"; 登入後跳轉前頁功能
+            }else{
+                alert("帳號密碼錯誤！請重新輸入！")
+            }
+        })
+    })
+
+    //生成並渲染出驗證碼圖形
+    function draw(show_num) {
+        var canvas_width=$('#canvas').width();
+        var canvas_height=$('#canvas').height();
+        var canvas = document.getElementById("canvas");//獲取到canvas的對象，演員
+        var context = canvas.getContext("2d");//獲取到canvas畫圖的環境，演員表演的舞臺
+        canvas.width = canvas_width;
+        canvas.height = canvas_height;
+        var sCode = "a,b,c,d,e,f,g,h,i,j,k,m,n,p,q,r,s,t,u,v,w,x,y,z,A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0";
+        var aCode = sCode.split(",");
+        var aLength = aCode.length;//獲取到數組的長度
+        for (var i = 0; i < 4; i++) { //這裏的for循環可以控制驗證碼位數（如果想顯示6位數，4改成6即可）
+            var j = Math.floor(Math.random() * aLength);//獲取到隨機的索引值
+            // var deg = Math.random() * 30 * Math.PI / 180;//產生0~30之間的隨機弧度
+            var deg = Math.random() - 0.5; //產生一個隨機弧度
+            var txt = aCode[j];//得到隨機的一個內容
+            show_num[i] = txt.toLowerCase();
+            var x = 10 + i * 20;//文字在canvas上的x座標
+            var y = 20 + Math.random() * 8;//文字在canvas上的y座標
+            context.font = "bold 23px 微軟雅黑";
+            context.translate(x, y);
+            context.rotate(deg);
+            context.fillStyle = randomColor();
+            context.fillText(txt, 0, 0);
+            context.rotate(-deg);
+            context.translate(-x, -y);
+        }
+        for (var i = 0; i <= 5; i++) { //驗證碼上顯示線條
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            context.moveTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.lineTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.stroke();
+        }
+        for (var i = 0; i <= 30; i++) { //驗證碼上顯示小點
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            var x = Math.random() * canvas_width;
+            var y = Math.random() * canvas_height;
+            context.moveTo(x, y);
+            context.lineTo(x + 1, y + 1);
+            context.stroke();
+        }
+    }
+    
+    //得到隨機的顏色值
+    function randomColor() {
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+</script>
+{% endblock %}

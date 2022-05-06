@@ -1,0 +1,106 @@
+/* 圖形驗證碼區 */
+
+.input-val {
+    width: 200px;
+    height: 32px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+#canvas {
+    vertical-align: middle;
+    box-sizing: border-box;
+    border: 1px solid rgb(160, 160, 160);
+    cursor: pointer;
+    margin-top: 5%;
+    background-color: #fff;
+}
+
+
+
+/* 帳密登入區 */
+#login_frame {
+    width: 450px;
+    height:fit-content;
+    padding: 13px;
+    position:relative;
+    margin: 5% auto 5% auto;
+    background-color: rgba(87, 254, 238, 0.756);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login_user{
+    margin:5%;
+    text-align: middle;
+}
+
+.label_input {
+    font-size: 16px;
+    font-weight: bold;
+    color:rgba(10, 51, 68, 0.75);
+    margin: 5%;
+}
+
+#login_control {
+    padding: 0 28px;
+    margin-top: 3%;
+} 
+
+.login_href{
+    margin: 5px;
+}
+
+.hreftext {
+    font-size:medium;
+    color: rgba(255, 255, 255, 0.905);
+    text-decoration: none;
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+.hreftext:hover {
+    color: rgba(116, 143, 128, 0.826);
+    text-decoration: underline;
+}
+
+.logintext{
+    color:rgba(116, 143, 128, 0.826);
+    font-weight: medium;
+}
+
+.btn_login {
+    font-size: 16px;
+    font-weight: bold;
+    width: 120px;
+    height: 30px;
+    text-align: center;
+    color: rgb(226, 253, 238);
+    background-color: #3BD9FF;
+    border-radius: 6px;
+    border: 0;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.btn_login:hover {
+    background-color: rgba(46, 186, 221, 0.75);
+
+}
+
+.register_user {
+    text-align: right;
+    margin-right: 8%;
+    margin-bottom: 8%;
+}
+
+.register_agree {
+    color:rgb(62, 107, 91);
+    font-size:smaller;
+    margin: 3%;
+}
+
+.error_message {
+    color:rgb(100, 143, 128);
+    font-size:smaller;
+}

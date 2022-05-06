@@ -1,0 +1,211 @@
+# English translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-05-05 18:05+0800\n"
+"PO-Revision-Date: 2022-05-03 23:13+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+#: __init__.py:23
+msgid "請先登入再進行此操作"
+msgstr "Please log in first."
+
+#: LaitGood/form.py:10
+msgid "會員帳號"
+msgstr "Username"
+
+#: LaitGood/form.py:10
+msgid "中英文皆可"
+msgstr "English or Chinese"
+
+#: LaitGood/form.py:13 LaitGood/form.py:38 LaitGood/form.py:77
+msgid "信  箱"
+msgstr "Email"
+
+#: LaitGood/form.py:13
+msgid "請輸入有效註冊信箱"
+msgstr "valid registration email"
+
+#: LaitGood/form.py:17 LaitGood/form.py:44
+msgid "密  碼"
+msgstr "Password"
+
+#: LaitGood/form.py:17 LaitGood/form.py:44
+msgid "請同時包含英文及數字"
+msgstr "English alphabet and numbers."
+
+#: LaitGood/form.py:20 LaitGood/form.py:66 LaitGood/form.py:94
+msgid "密碼請同時包含英文及數字"
+msgstr "Please include English alphabet and numbers at the same time."
+
+#: LaitGood/form.py:22
+msgid "確認密碼"
+msgstr "Password Confirmation"
+
+#: LaitGood/form.py:24 LaitGood/form.py:71 LaitGood/form.py:99
+msgid "密碼輸入有誤"
+msgstr "The password is wrong."
+
+#: LaitGood/form.py:27
+msgid "按下註冊鈕的同時，表示您已詳閱我們的資料使用政策與使用條款，同意使用 LaitGood 所提供的服務並訂閱電子報。"
+msgstr ""
+"While pressing the registration button, it means that you have read our "
+"data usage policies and terms, and agree to use the services provided by "
+"LaitGood and subscribe to the electronic newspaper."
+
+#: LaitGood/form.py:29
+msgid "註冊會員"
+msgstr "Submit"
+
+#: LaitGood/form.py:34
+msgid "此信箱已被註冊，請重新輸入"
+msgstr "This Email has been registered."
+
+#: LaitGood/form.py:38 LaitGood/form.py:77
+msgid "請輸入您的註冊信箱"
+msgstr "registered Email"
+
+#: LaitGood/form.py:48
+msgid "驗證碼"
+msgstr "Verification"
+
+#: LaitGood/form.py:48
+msgid "點圖可更換驗證碼（大小寫不拘）"
+msgstr "Click the picture to replace"
+
+#: LaitGood/form.py:52
+msgid "記住我"
+msgstr "Remember me"
+
+#: LaitGood/form.py:54
+msgid "登入"
+msgstr "login"
+
+#: LaitGood/form.py:59
+msgid "舊密碼"
+msgstr "Old Password"
+
+#: LaitGood/form.py:63
+msgid "新密碼"
+msgstr "New Password "
+
+#: LaitGood/form.py:69
+msgid "新密碼確認"
+msgstr "Password Confirmation"
+
+#: LaitGood/form.py:73
+msgid "更換密碼"
+msgstr "Change password"
+
+#: LaitGood/form.py:82
+msgid "信箱驗證"
+msgstr "Email verification"
+
+#: LaitGood/form.py:87
+msgid "此信箱未曾註冊，請重新確認。"
+msgstr "This eamil address has not been registered."
+
+#: LaitGood/form.py:91 LaitGood/form.py:101
+msgid "重設密碼"
+msgstr "Password Reset"
+
+#: LaitGood/form.py:97
+msgid "密碼確認"
+msgstr "Password Confirmation"
+
+#: templates/LaitGoodbase.html:43
+msgid "搜尋產品關鍵字"
+msgstr "Product Keywords"
+
+#: templates/LaitGoodbase.html:44
+msgid "搜尋"
+msgstr "search"
+
+#: templates/LaitGoodbase.html:52
+msgid "會員中心"
+msgstr "Member Centre"
+
+#: templates/LaitGoodbase.html:53
+msgid "變更密碼"
+msgstr "Change password"
+
+#: templates/LaitGoodbase.html:54
+msgid "登出"
+msgstr "logout"
+
+#: templates/LaitGoodbase.html:65
+msgid "語言"
+msgstr "language"
+
+#: templates/LaitGoodbase.html:67
+msgid "繁體中文"
+msgstr "Mandarin"
+
+#: templates/LaitGoodbase.html:68
+msgid "英文"
+msgstr "English"
+
+#: templates/LaitGoodbase.html:77
+msgid "關於我們"
+msgstr "About Us"
+
+#: templates/LaitGoodbase.html:79
+msgid "品牌故事"
+msgstr "Brand Story"
+
+#: templates/LaitGoodbase.html:80
+msgid "好評推薦"
+msgstr "Highly Recommend"
+
+#: templates/LaitGoodbase.html:81
+msgid "品質保證"
+msgstr "Quality Assurance"
+
+#: templates/LaitGoodbase.html:84
+msgid "最新消息"
+msgstr "News"
+
+#: templates/LaitGoodbase.html:85
+msgid "產品介紹"
+msgstr "Products"
+
+#: templates/LaitGoodbase.html:86
+msgid "線上購物"
+msgstr "Shopping"
+
+#: templates/LaitGoodbase.html:87
+msgid "聯絡我們"
+msgstr "Contact Us"
+
+#: templates/LaitGoodbase.html:109
+msgid "公司名稱： 日果乳坊有限公司"
+msgstr "LaitGood Co., Ltd."
+
+#: templates/LaitGoodbase.html:110
+msgid "公司地址： 402 台中市南區興大路145號 (國立中興大學)"
+msgstr "145 Xingda Rd., South Dist., Taichung City 402, Taiwan (R.O.C.)"
+
+#: templates/LaitGoodbase.html:111
+msgid "公司電話： 04-XXXX-XXXX"
+msgstr "Tel: 04-XXXX-XXXX"
+
+#: templates/LaitGoodbase.html:112
+msgid "客服時間：週一至週五 9:00~12:00 | 13:00~18:00"
+msgstr "Service Hours: Monday-Friday 9:00~12:00 | 13:00~18:00"
+
+#: templates/LaitGoodbase.html:113
+msgid "登記字號： X-XXXXXXXXX-XXXXX-X"
+msgstr "Business Registration Certificate:  X-XXXXXXXXX-XXXXX-X"
+

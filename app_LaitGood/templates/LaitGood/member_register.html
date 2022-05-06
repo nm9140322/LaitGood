@@ -1,0 +1,35 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 會員註冊{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/login.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<!-- 會員註冊區 -->
+{% from "LaitGood/_userform.html" import render_field %}
+<section id="login_frame">
+    <!-- 實際利用Macro引入表單的區域 -->
+    <form method="POST" action="{{ url_for('LaitGoodmember_register') }}" >
+        {{ form.hidden_tag() }}
+        <div class='register_user'>            
+            {{ render_field(form.username) }}
+            {{ render_field(form.email) }}
+            {{ render_field(form.password) }}
+            {{ render_field(form.password2) }}
+        </div>
+        <hr class="hrline">
+        <p class="register_agree">{{ form.agreecheck }} {{ form.agreecheck.label }}</p>
+        {{ form.submit }}
+
+        <div class="login_href">
+            <p><span class="logintext">已經註冊了嗎？</span><a class="hreftext" href="{{ url_for('LaitGoodmember_login') }}">登入</a></p>
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
