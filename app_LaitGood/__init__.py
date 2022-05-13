@@ -1,13 +1,16 @@
 # 將LaitGoodProject內所有初始化設置於此(__init__.py)
 
-from flask import Flask, request, g
+from flask import Flask, request
 from config import Config # 專案初始化的時候import參數，導入參數設置類別，渲染相關應用程式
 from flask_sqlalchemy import SQLAlchemy # 資料庫
 from flask_bcrypt import Bcrypt # 加密
 from flask_mail import Mail # 寄信用的flask_mail的初始化 
 from flask_login import LoginManager # flask_login的初始化
-from flask_babel import Babel, gettext # 翻譯用的flask_babel的初始化
+from flask_babelex import Babel, gettext # 翻譯用的flask_babel的初始化
 import flask_whooshalchemyplus # 站內搜尋的flask_whooshalchemyplus初始化
+from flask_admin import Admin # 後台管理系統
+
+
 # from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
@@ -24,6 +27,10 @@ login.login_view = 'LaitGoodmember_login' # 使用者登入功能所在的endpoi
 login.login_message = gettext("請先登入再進行此操作")
 babel = Babel(app)
 flask_whooshalchemyplus.init_app(app)
+
+
+admin = Admin(app, name='後台管理系統') # 初始後臺管理系統
+
 
 # 使用者語系設置
 @babel.localeselector

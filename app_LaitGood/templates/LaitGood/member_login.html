@@ -40,11 +40,12 @@
                 <a class="hreftext" href="{{ url_for('reset_password') }}">忘記密碼？</a> <!-- 忘記密碼的功能 -->        
             </div>
         
-        {{ form.submit }}
-
-        <div class="login_href">
-            <p><span class="logintext">還沒有帳號嗎？</span><a class="hreftext" href="{{ url_for('LaitGoodmember_register') }}">註冊</a></p>
-             <!-- 跳轉到註冊頁面的功能 -->
+            {{ form.submit }}
+        
+            <div class="login_href">
+                <p><span class="logintext">還沒有帳號嗎？</span><a class="hreftext" href="{{ url_for('LaitGoodmember_register') }}">註冊</a></p>
+                <!-- 跳轉到註冊頁面的功能 -->
+            </div>
         </div>
     </form>
 </section>

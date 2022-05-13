@@ -2,31 +2,32 @@
 
 import datetime
 from werkzeug.urls import url_parse # 使用Werkzeug的url_parse()函式解析網址來源及安全性
-from app_LaitGood import app, db, babel # 從__init__.py 引入初始化的app和db
+from app_LaitGood import app, db, babel, admin # 從__init__.py 引入初始化的app
 from flask import request, render_template,url_for,redirect, flash
 from app_LaitGood.LaitGood.model import UserRegister, send_mail, Post # 從model.py引入資料表
-from app_LaitGood.LaitGood.form import  FormRegister, FormLogin, FormChangePWD, FormResetPasswordMail, FormResetPassword # 從form.py引入表格
+from app_LaitGood.LaitGood.form import  FormRegister, FormLogin, FormChangePWD, FormResetPasswordMail, FormResetPassword, AdminLoginForm # 從form.py引入表格
 from flask_login import current_user, login_user, logout_user, login_required # 登入功能
-from flask_babel import refresh
+from flask_babelex import refresh # 語系翻譯
 import flask_whooshalchemyplus # 站內搜索
+from flask_admin import BaseView, expose # 後臺管理
+from flask_admin.contrib.sqla import ModelView # 後臺管理
 
-# @app.route('/LaitGoodmember') # preHTML測試用的
-# def LaitGoodHomepage():
-#     return render_template('LaitGoodHomepage.html') 
 
-# 資料庫操作
+# 資料庫操作，Flask_Migrate正在等妳和親近:)
 @app.route('/dbtable', methods=['GET', 'POST'])
 def dbtable():   
     db.create_all() # 建置table
     return '建置資料庫註冊表'
 
-# 管理者登入頁面 (測試用)
+# 登入頁面 (測試用)
 @app.route('/', methods=['GET', 'POST'])
 def manager_login():
     if (request.method == 'POST'):
         username=request.form.get('username')
-        if (username == 'CEO'):
+        if (username == 'gu'): #guest
             return redirect(url_for('LaitGood'))
+        elif (username == 'ad'): # admin
+            return redirect(url_for('admin.index')) # 進入後台
         else:
             flash("帳號錯誤，請重新輸入！")  # 閃現訊息   
             return redirect(url_for('manager_login'))
@@ -36,15 +37,7 @@ def manager_login():
 # 日果首頁
 @app.route('/LaitGood', methods=['GET', 'POST']) # 利用利用jinja模板語法直接繼承基礎模板做出的首頁例子
 def LaitGood():
-    refresh()
-    # if (request.method == 'POST'):
-    #     username=request.form.get('username')
-    #     if (username == 'CEO'):
-    #         return render_template('LaitGood/LaitGood.html') 
-    #     else:
-    #         flash("帳號錯誤，請重新輸入！")  # 閃現訊息   
-    #         return redirect(url_for('LaitGood'))
-    # return render_template('LaitGood/manager_login.html')        
+    refresh()     
     return render_template('LaitGood/LaitGood.html') 
 
 # 中文語系設置    
@@ -89,7 +82,7 @@ def LaitGoodmember_register():
         flash('請確認您的信箱以完成註冊。')              
         return render_template('LaitGood/flashmessage.html')
 
-    return render_template('LaitGood/member_register.html', form=form) 
+    return render_template('LaitGood/member_register.html', form=form) # 從form回傳
 
 
 # 驗證token的路由
@@ -110,7 +103,7 @@ def user_confirm(token):
         db.session.add(user)
         db.session.commit()
         print('成功驗證')
-        flash('此帳號已成功驗證，感謝您的註冊！') # 不太確定這裡會不會直接登入
+        flash('此帳號已成功驗證，感謝您的註冊！')
 
     return render_template('LaitGood/flashmessage.html') 
 
@@ -146,6 +139,7 @@ def LaitGoodmember_login():
 
 # 會員登出
 @app.route('/LaitGoodmember_logout')  
+@login_required
 def LaitGoodmember_logout():  
     logout_user() # flask-login內建的登出函式
     flash('已登出，期待再次見到您:)')
@@ -153,7 +147,6 @@ def LaitGoodmember_logout():
 
 # 攔截所有request的function，用於攔截尚未啟動的帳號
 # 使用者狀況：登入、尚未啟動、endpoint不等於static(避免靜態資源的取用異常)及相關例外清單，否則重啟信件等request也會被攔截
-
 @app.before_request
 def before_request():
     if (current_user.is_authenticated and
@@ -246,23 +239,118 @@ def reset_password_recive(token):
     
     return render_template('LaitGood/member_resetpassword.html', form=form)
 
-# 日果線上購物頁，待改
-@app.route('/LaitGoodmember_shop') # 利用利用jinja模板語法直接繼承基礎模板做出的首頁例子
+# 日果線上購物頁，待修
+@app.route('/LaitGoodmember_shop')
 @login_required
 def LaitGoodmember_shop():
 
     return render_template('LaitGood/member_shop.html') 
 
-# 站內搜尋區，施工中
+# 站內關鍵字搜尋區，待修
 @app.route('/search', methods = ['POST', 'GET'])
 def search():
     if not request.form['search']:
         return redirect(url_for('LaitGood'))
     return redirect(url_for('.search_results', query = request.form['search']))
 
- 
 @app.route('/search_results/<query>')
 def search_results(query):
     flask_whooshalchemyplus.whoosh_index(app, Post) 
     results = Post.query.whoosh_search(query).all()
     return render_template('LaitGood/search_results.html', query = query, results = results)
+
+
+# 後台功能區：
+# 後台登入頁面
+@app.route('/LaitGood_adminlogin', methods=['GET', 'POST'])
+def LaitGood_adminlogin():
+    form =  AdminLoginForm()
+    if form.validate_on_submit():
+        adminuser = UserRegister.query.filter_by(username=form.adminlogin.data).first()
+        if adminuser:
+            if adminuser.check_password(form.adminpassword.data):
+                if adminuser.roles == True:
+                    login_user(adminuser)
+                    return redirect(url_for('admin.index'))
+                else:
+                    flash('此帳號不符合管理員權限。')
+            else:
+                flash('輸入密碼有誤，請重新確認。')
+        else:
+            flash('輸入帳號有誤，請重新確認。')   
+                
+    return render_template('LaitGood/admin_login.html', form=form)
+
+# 後台登出
+class adminlogout(BaseView):
+    def is_accessible(self): # 未登入看不到
+        if current_user.is_authenticated:
+            adminuser =  UserRegister.query.filter_by(username=current_user.username).first()
+            if adminuser.roles == True:
+                return current_user.is_authenticated
+            else:
+                flash('此帳號不符合管理員權限，請先登出並改以管理員身分重新登入。')
+                return  False
+        else:
+            return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        flash('請先以管理員身分登入！')
+        return redirect(url_for('LaitGood_adminlogin', next=request.url))
+
+    @expose('/')  
+    def adminlogout(self):
+        logout_user()
+        flash('已從後台管理系統登出！')
+        return redirect(url_for('admin.index'))
+
+# 渲染後台自訂頁面
+admin.add_view(adminlogout(name='登出')) 
+
+
+# 後台會員資料管理
+class UserView(ModelView):
+    def is_accessible(self): # 未登入看不到
+        if current_user.is_authenticated:
+            adminuser =  UserRegister.query.filter_by(username=current_user.username).first()
+            if adminuser.roles == True:
+                return current_user.is_authenticated
+            else:
+                return  False
+        else:
+            return False
+
+    def inaccessible_callback(self, name, **kwargs): # 未登入不得進入
+        flash('請先以管理員身分登入！')
+        return redirect(url_for('LaitGood_adminlogin', next=request.url))
+
+    # 定義管理員是否可以進行刪除增改，預設為True
+    can_delete = True
+    can_edit = True
+    can_create = False
+    can_view_details = True # 可以看到所有欄位的完整內容
+    
+    # 改成彈出式視窗進行新增修改
+    # create_modal = True
+    # edit_modal = True
+
+    # 自訂義column欄位名
+    column_labels = dict(username='會員帳號', 
+                        email='註冊信箱', 
+                        registered_on='註冊日期', 
+                        confirm='帳號驗證', 
+                        confirmed_on='驗證日期'
+                        )
+
+    # 如果不想顯示特定爛位，可以遮蔽
+    column_exclude_list = ['password_hash']
+
+    # 設定為可搜尋的關鍵字及篩選項目
+    column_searchable_list = ['username', 'email']
+    column_filters = ['confirm']
+
+    # 設定為可直接修改的欄位
+    # column_editable_list = ['username']
+
+# 渲染後台管理db的頁面
+admin.add_view(UserView(UserRegister, db.session, url='/LaitGood_member/',name='會員資訊', category='會員管理'))

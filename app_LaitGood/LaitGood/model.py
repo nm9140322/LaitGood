@@ -2,10 +2,11 @@
 from app_LaitGood import db, bcrypt, mail, login # import初始化過的套件
 from flask_login import UserMixin # 多重繼承
 from itsdangerous import URLSafeTimedSerializer # 產生驗證token
-from flask import request, current_app, render_template, redirect, url_for # current_app類似定義user，但是直接連接目前的使用者
+from flask import request, current_app, render_template # current_app類似定義user，但是直接連接目前的使用者
 from threading import Thread # 寄信用的多線程
 from flask_mail import Message
 from jieba.analyse.analyzer import ChineseAnalyzer # 中文斷詞工具
+
 
 # 記錄會員註冊的資料表
 class UserRegister(UserMixin, db.Model):
@@ -17,6 +18,7 @@ class UserRegister(UserMixin, db.Model):
     registered_on = db.Column(db.DateTime, nullable=False) # 註冊日期
     confirm = db.Column(db.Boolean, default=False) # 記錄用戶是否已啟動驗證程序，預設為False
     confirmed_on = db.Column(db.DateTime, nullable=True) # 驗證通過日期
+    roles = db.Column(db.Boolean, default=False) # 必須手動開通設定管理員身分
 
     # password利用裝飾器property變更屬性，在使用的時候實際上是hash並且賦值給予password_hash
     @property
@@ -55,10 +57,11 @@ class UserRegister(UserMixin, db.Model):
             return False
         return email
 
-# login_manager.user_loader需要設置回呼函數(callback function)，回傳使用者資訊
+# 登入功能
 @login.user_loader
 def load_user(user_id):  
     return UserRegister.query.get(int(user_id))
+
 
 
 # 寄信功能區

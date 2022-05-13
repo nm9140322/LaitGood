@@ -2,11 +2,9 @@
 # import os
 # print (os.urandom(24))
 
-# 給主頁引入：
-# CSRF_ENABLED = True # 我想不起來這行是幹嘛用的，先保留 
+
 import os 
 from datetime import timedelta
-
 
 class Config:
     # 資料庫連線(練習先用SQLite擋，有空再來慢慢改成MySQL)
@@ -23,7 +21,7 @@ class Config:
     MAIL_PORT = 587 # 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME') # 終端機設置 $env:MAIL_USERNAME = "YOUR MAIL COUNT"
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') # 終端機設置 $env:MAIL_UPASSWORD = "YOUR MAIL PASSWORD"
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') # 終端機設置 $env:MAIL_PASSWORD = "YOUR MAIL PASSWORD"
     MAIL_DEFAULT_SENDER = MAIL_USERNAME # 可以省略sender設置
 
     # 註冊驗證用的token
@@ -38,4 +36,6 @@ class Config:
     # 多國語系功能
     BABEL_DEFAULT_LOCALE = 'zh_TW'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
-    ALLOW_LANGUAGES = ['zh', 'en']
+    ALLOW_LANGUAGES = ['zh_TW', 'en']
+    
+

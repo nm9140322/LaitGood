@@ -3,7 +3,7 @@
 from flask_wtf import FlaskForm # Flask表單
 from wtforms import StringField, SubmitField, validators, PasswordField, EmailField, ValidationError, BooleanField
 from app_LaitGood.LaitGood.model import UserRegister # 寫入使用者註冊資料前需要驗證email與username是否已被使用，從app_pack中Member資料夾裡的model.py引入UserReister (model)
-from flask_babel import lazy_gettext
+from flask_babelex import lazy_gettext
 
 # 註冊用的form
 class FormRegister(FlaskForm):
@@ -99,3 +99,14 @@ class FormResetPassword(FlaskForm):
         validators.EqualTo('password', message=lazy_gettext('密碼輸入有誤'))
     ])
     submit = SubmitField(lazy_gettext('重設密碼'), render_kw={'class':'btn_login'})
+
+
+# 後台系統管理者登入
+class AdminLoginForm(FlaskForm):
+
+    adminlogin = StringField(lazy_gettext('管理員帳號'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入管理者帳號')}, validators=[validators.DataRequired()])
+
+    adminpassword = PasswordField(lazy_gettext('管理員密碼'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入管理者密碼')}, validators=[validators.DataRequired()])
+    
+    submit = SubmitField(lazy_gettext('登入後台'), render_kw={'class':'btn_login'})
+
