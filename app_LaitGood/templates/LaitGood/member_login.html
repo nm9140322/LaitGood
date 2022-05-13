@@ -5,6 +5,9 @@
 
 {% block link %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/login.css') }}">
+<meta name="google-signin-client_id" content="{{ google_oauth2_client_id }}">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block main %}
@@ -41,7 +44,8 @@
             </div>
         
             {{ form.submit }}
-        
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <!-- GOOGLE 登入 -->
             <div class="login_href">
                 <p><span class="logintext">還沒有帳號嗎？</span><a class="hreftext" href="{{ url_for('LaitGoodmember_register') }}">註冊</a></p>
                 <!-- 跳轉到註冊頁面的功能 -->
@@ -144,4 +148,25 @@
         return "rgb(" + r + "," + g + "," + b + ")";
     }
 </script>
+<script>
+    //GOOGLE 登入
+    function onSignIn(googleUser) {
+      var id_token = googleUser.getAuthResponse().id_token;
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      $.ajax({
+        type: "POST",
+        url: '/google_sign_in',
+        data: JSON.stringify({'id_token': id_token}),
+        success: function() {
+          console.log('login success')
+        },
+        dataType: 'json',
+        contentType:"application/json",
+      });
+    }
+  </script>
 {% endblock %}

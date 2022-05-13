@@ -1,5 +1,5 @@
 
-from app_LaitGood import db, bcrypt, mail, login # import初始化過的套件
+from app_LaitGood import db, bcrypt, mail, login, babel # import初始化過的套件
 from flask_login import UserMixin # 多重繼承
 from itsdangerous import URLSafeTimedSerializer # 產生驗證token
 from flask import request, current_app, render_template # current_app類似定義user，但是直接連接目前的使用者
@@ -61,7 +61,6 @@ class UserRegister(UserMixin, db.Model):
 @login.user_loader
 def load_user(user_id):  
     return UserRegister.query.get(int(user_id))
-
 
 
 # 寄信功能區

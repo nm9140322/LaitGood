@@ -3,11 +3,11 @@
 import datetime
 from werkzeug.urls import url_parse # 使用Werkzeug的url_parse()函式解析網址來源及安全性
 from app_LaitGood import app, db, babel, admin # 從__init__.py 引入初始化的app
-from flask import request, render_template,url_for,redirect, flash
+from flask import session, request, render_template,url_for,redirect, flash
 from app_LaitGood.LaitGood.model import UserRegister, send_mail, Post # 從model.py引入資料表
 from app_LaitGood.LaitGood.form import  FormRegister, FormLogin, FormChangePWD, FormResetPasswordMail, FormResetPassword, AdminLoginForm # 從form.py引入表格
 from flask_login import current_user, login_user, logout_user, login_required # 登入功能
-from flask_babelex import refresh # 語系翻譯
+from flask_babelex import refresh, get_locale # 語系翻譯
 import flask_whooshalchemyplus # 站內搜索
 from flask_admin import BaseView, expose # 後臺管理
 from flask_admin.contrib.sqla import ModelView # 後臺管理
@@ -25,9 +25,9 @@ def manager_login():
     if (request.method == 'POST'):
         username=request.form.get('username')
         if (username == 'gu'): #guest
-            return redirect(url_for('LaitGood'))
+            return redirect(url_for('LaitGood')) # 進入首頁
         elif (username == 'ad'): # admin
-            return redirect(url_for('admin.index')) # 進入後台
+            return redirect(url_for('LaitGood_adminlogin')) # 進入後台登入
         else:
             flash("帳號錯誤，請重新輸入！")  # 閃現訊息   
             return redirect(url_for('manager_login'))
@@ -42,15 +42,15 @@ def LaitGood():
 
 # 中文語系設置    
 @app.route('/LaitGood_zh', methods=['GET', 'POST'])
-def LaitGood_zh():
-    y = lambda: 'zh_TW'
-    babel.localeselector(y)     
+def LaitGood_zh():    
+    session['lang'] = 'zh_TW'
+    refresh()
     return redirect(url_for('LaitGood'))
 # 英文語系設置    
 @app.route('/LaitGood_en', methods=['GET', 'POST'])
 def LaitGood_en():
-    y = lambda: 'en'
-    babel.localeselector(y)     
+    session['lang'] = 'en'
+    refresh()
     return redirect(url_for('LaitGood'))
 
 
