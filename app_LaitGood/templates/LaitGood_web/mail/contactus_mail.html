@@ -1,0 +1,16 @@
+
+<body style='background-color:rgb(232, 252, 242); font-family: "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif, serif;color: rgb(47, 79, 79);'>
+    <div style=" width: 400px;height:fit-content;padding: 13px;position:relative;margin: 5% auto 5% auto;
+    background-color: rgba(87, 254, 238, 0.756);border-radius: 10px;text-align: center;">
+        <h1>來自 {{ form.username.data }} 寄信詢問：</h1>
+        <br>
+        <p> {{ form.comment.data }} </p>
+        <br>
+        <h2>該名客戶連絡方式如下：</h2>
+        <p> {{ form.email.data }} </p>
+        <p> {{ form.phone.data }} </p>
+
+        <br>
+        <h2>請相關人員收信後盡速聯絡回覆！</h2>
+    </div>
+</body>

@@ -279,7 +279,6 @@ li {
     font-size: larger;
     margin: 5px;
     margin-left: 20px;
-
 }
 
 #socialmedia{
@@ -471,7 +470,7 @@ li {
 
 .CEOpic{
     justify-content: center;
-    align-items: center; 
+    align-items: center;
     margin: 1%;
 }
 
@@ -483,15 +482,36 @@ li {
 
 .emphasize{
     font-size: larger;
-    margin:10%
+    margin:5%;
 }
+
+.content{
+    font-size: larger;
+    margin-left: 10%;
+    text-align: center;
+    color:rgb(41, 187, 121)
+}
+
 
 /* 產品圖介紹 */
 .subtitle{
     font-size: larger;
     font-weight: bold;
     text-align:center;
-    margin-top:2%
+    margin-top:2%;
+}
+
+.story{
+    display: flex;
+    position: relative;
+    margin:10%;
+}
+
+.storypic{
+    flex: none;
+    align-items: center;
+    justify-content:center;
+    margin: 10px;
 }
 
 

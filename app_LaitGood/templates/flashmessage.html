@@ -1,0 +1,26 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 網頁訊息{% endblock %}
+
+{% block link %}
+<meta http-equiv="refresh" content="3; url= {{ url_for('web.LaitGood')}} ">
+<!-- 3秒後自動跳轉至首頁 -->
+{% endblock %}
+
+{% block main %}
+
+<section>
+<!-- Flash訊息區 -->
+{% with messages = get_flashed_messages() %} 
+{% if messages %}  
+      {% for message in messages %}  
+           <div class="flashstyle">{{ message }}</div>  
+      {% endfor %}  
+{% endif %}  
+{% endwith %}  
+</section>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

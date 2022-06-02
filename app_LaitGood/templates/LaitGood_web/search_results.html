@@ -1,0 +1,68 @@
+<!-- 利用利用jinja模板語法直接繼承基礎模板做出的站內搜尋結果頁面 -->
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 站內搜尋{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block main %}
+
+<div class="page-header">
+
+<h1>搜索關鍵詞： "{{query}}"</h1>
+
+</div>
+<!-- 以下需要在增加產品頁後大改 -->
+
+<ul class="posts">
+
+{% for post in results %}
+
+<li class="post">
+
+<div class="post-content">
+
+<div class="post-date">{{ moment(post.timestamp).fromNow() }}</div>
+
+<div class="post-author"><a href="{{ url_for('.user', username=post.author.username) }}">{{ post.author.username }}</a></div>
+
+<div class="post-body">
+
+{% if post.body_html %}
+
+{{ post.body_html | safe }}
+
+{% else %}
+
+{{ post.body }}
+
+{% endif %}
+
+</div>
+
+<div class="post-footer">
+
+<a href="{{ url_for('.post', id=post.id) }}">
+
+<span class="label label-success">詳情</span>
+
+</a>
+
+<a href="{{ url_for('.post', id=post.id) }}#comments">
+
+<span class="label label-primary">{{ post.comments.count() }} 評論</span>
+
+</a>
+
+</div>
+
+</div>
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+{% endblock %}

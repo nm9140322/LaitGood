@@ -1,0 +1,18 @@
+
+<body style='background-color:rgb(232, 252, 242); font-family: "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif, serif;color: rgb(47, 79, 79);'>
+    <div style=" width: 400px;height:fit-content;padding: 13px;position:relative;margin: 5% auto 5% auto;
+    background-color: rgba(87, 254, 238, 0.756);border-radius: 10px;text-align: center;">
+        <h1>{{ user.username }} 您好，</h1>
+        <br>
+        <p>感謝您註冊為日果LaitGood會員，</p>
+        <br>
+        <p>請於一小時內點選以下按鈕以驗證並啟動註冊帳號：</p>
+        <br>
+        <a href="{{ url_for('member.user_confirm', token=token, _external=True) }}", style="font-size: 16px;font-weight: bold;width: 120px;height: 30px;text-align: center;color: rgb(226, 253, 238);background-color: #3BD9FF;border-radius: 6px;border: 0;margin: 5px; cursor: pointer;">
+            Confirm Email
+        </a>
+        <br>
+        <br>
+        <p>再次誠摯歡迎並感謝您的加入！</p>
+    </div>
+</body>

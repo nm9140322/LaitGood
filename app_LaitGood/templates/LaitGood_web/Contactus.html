@@ -1,0 +1,38 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 聯絡我們{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block main %}
+<!-- 聯絡我們區 -->
+{% from "LaitGood_web/_userform.html" import render_field %}
+<section >
+    <!-- 實際利用Macro引入表單的區域 -->
+    <div class="story">
+        <div class="emphasize">
+            <h1>聯絡我們</h1>
+            <br>
+            <p>有任何問題請填寫表單，我們將盡快為您服務！</p>
+        </div>
+
+        <div id="login_frame">
+            <form method="POST" action="{{ url_for('web.LaitGood_Contactus') }}" >
+                {{ form.hidden_tag() }}
+                <div class='register_user'>            
+                    {{ render_field(form.username) }}
+                    {{ render_field(form.email) }}
+                    {{ render_field(form.phone) }}
+                    {{ render_field(form.comment) }}
+                </div>
+                <hr class="hrline">
+                {{ form.submit }}
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
