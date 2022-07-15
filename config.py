@@ -10,9 +10,11 @@ pjdir = os.path.abspath(os.path.dirname(__file__))
 def create_sqlite_uri(db_name):
     return "sqlite:///" + os.path.join(pjdir, db_name)
 
+
 class BaseConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False # True會追蹤各種改變的信號而消耗額外的記憶體
     SECRET_KEY = '\t>\xf2;\x89\x9d4e\xd1\x89\x8c\x9e\xf9>\xd02"2i.\x83\xf7\x97\x84' # 金鑰
+    # WTF_CSRF_SECRET_KEY = os.urandom(24) # CSRF金鑰，沒有特別設定就是預設直接共用SECRET_KEY
     
     # 寄信STMP
     # os.environ.get用來取得環境變數，避免敏感資訊置於公開場合 (github)
@@ -40,23 +42,29 @@ class BaseConfig:
     # GOOGLE登入功能
     GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None) # 終端機設置 $env:GOOGLE_CLIENT_ID = "YOUR GOOGLE_CLIENT_ID"
 
+    # 檔案上傳功能，『DEF』來自實作UploadSet的參數 (__init__.py)
+    UPLOADED_DEF_DEST = './app_LaitGood/static/image_upload' # 檔案上傳放置路徑
+    UPLOADED_DEF_URL = '/static/image_upload/' # 調用文件時的連結
+    # UPLOADED_DEF_URL = 'C:\\Users\\USER\\Desktop\\自學程式\\LaitGoodProject\\app_LaitGood\\static\\image_upload\\' # 調用文件時的連結
+
     
 class DevelopmentConfig(BaseConfig): # 開發環境
     DEBUG = True 
-    SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\laitgood_register.sqlite')
+    # SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\laitgood_register.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') # 終端機設置 $env:DATABASE_URI = "mysql+pymysql://帳號:密碼@localhost:3306/laitgood_db" # MySQL
     
-class TestingConfig(BaseConfig): # 測試環境，待改
+class TestingConfig(BaseConfig): # 測試環境
     TESTING = True
-    WTF_CSRF_ENABLED = False # flask-wtf 用 csrf_token處理 CSRF 的攻擊，測試時不會像正常使用一樣實際按下送出，而是直接傳資料到後端會被 csrf_token 擋下來，所以要關掉。
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://username:password@ip:3306/tablename' # 測試用MySQL，待改
+    WTF_CSRF_ENABLED = False # flask-wtf 用 csrf_token處理 CSRF 的攻擊，測試時不會像正常使用一樣實際按下送出，而是直接傳資料到後端會被 csrf_token 擋下來，所以要關掉。  
+    SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\test_laitgood_register.sqlite')
 
-class ProductionConfig(BaseConfig): # 正式環境，待改
-    SECRET_KEY = os.urandom(32)
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")
+class ProductionConfig(BaseConfig): # 正式環境
+    # SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\official_laitgood_register.sqlite')
 
 # 環境配置更換時
-Config = {
+config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
-    "production": ProductionConfig,
+    'production': ProductionConfig,
 }

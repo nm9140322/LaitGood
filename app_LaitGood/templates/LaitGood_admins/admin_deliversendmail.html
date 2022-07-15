@@ -1,0 +1,18 @@
+{% extends 'admin/master.html' %} 
+
+<!--  風格樣式保持一致，所以要繼承admin/master.html的父模板 -->
+{% block body %}
+    <h1>後台管理系統-產品出貨寄信</h1>
+    <form method="POST" action="{{ url_for('orderdeliver.OrderDeliverSendMail') }}" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        {% from "LaitGood_admins/_userform.html" import render_field %}
+            <div>            
+                {{ render_field(form.order_number) }}
+            </div>
+            <div>
+            {{ form.submit }}
+            </div>
+    </form>
+
+{% endblock %}

@@ -1,16 +1,17 @@
 # 執行並渲染網頁的view
+# 和會員相關聯的內容為主
+
 
 import datetime
 from . import member # blueprint，所有網址都會加上前綴/member (member.)
 from werkzeug.urls import url_parse # 使用Werkzeug的url_parse()函式解析網址來源及安全性
 from app_LaitGood import db # 從__init__.py 引入初始化的app
-from flask import current_app, request, jsonify, render_template,url_for,redirect, flash
+from flask import current_app, request, jsonify, render_template, url_for, redirect, flash
 from app_LaitGood.LaitGood_member.model import UserRegister, send_mail # 從model.py引入資料表
-from app_LaitGood.LaitGood_member.form import  FormRegister, FormLogin, FormChangePWD, FormResetPasswordMail, FormResetPassword # 從form.py引入表格
+from app_LaitGood.LaitGood_member.form import  FormRegister, FormLogin, FormChangePWD, FormResetPasswordMail, FormResetPassword,  MemberCenterForm # 從form.py引入表格
 from flask_login import current_user, login_user, logout_user, login_required # 登入功能
 from google.oauth2 import id_token # GOOGLE登入
 from google.auth.transport import requests # GOOGLE登入
-from config import BaseConfig
 
 # 資料庫操作
 @member.route('/dbtable', methods=['GET', 'POST'])
@@ -28,6 +29,7 @@ def LaitGoodmember_register():
             username = form.username.data,
             email = form.email.data,
             password = form.password.data,
+            agreecheck = form.agreecheck.data,
             registered_on = datetime.datetime.now()
             )
         db.session.add(user)
@@ -134,7 +136,7 @@ def google_sign_in():
 def before_request():
     if (current_user.is_authenticated and
             not current_user.confirm and
-            request.endpoint not in ['member.re_userconfirm','member.LaitGoodmember_login', 'member.LaitGoodmember_logout', 'member.user_confirm', 'member.change_password','member.reset_password','member.reset_password_recive'] and
+            request.endpoint not in ['member.re_userconfirm','member.LaitGoodmember_login', 'member.LaitGoodmember_logout', 'member.user_confirm', 'member.change_password','member.reset_password','member.reset_password_recive', 'member.member_center'] and
             request.endpoint != 'static'):       
 
         return render_template('LaitGood_member/member_unactivate.html') 
@@ -221,3 +223,39 @@ def reset_password_recive(token):
             return redirect(url_for('member.LaitGoodmember_login'))
     
     return render_template('LaitGood_member/member_resetpassword.html', form=form)
+
+# 會員中心頁
+@member.route('/member_center', methods=['GET', 'POST'])
+@login_required
+def member_center():
+    # user = current_user
+    user = UserRegister.query.filter_by(id=current_user.id).first_or_404()
+    memberform = MemberCenterForm(obj=user)
+    memberform.populate_obj(user) # 假設form的filed名稱與model的屬性名稱相同，可以直接利用obj渲染，不用個別指定設置
+
+    if memberform.validate_on_submit():
+        user.county = request.form.get('county')
+        user.district = request.form.get('district')
+        user.zipcode = request.form.get('zipcode')
+
+        user = UserRegister(
+            id = user.id,
+            username = memberform.username.data,
+            birthday = memberform.birthday.data,
+            gender = memberform.gender.data,
+            cellphone = memberform.cellphone.data,
+            phone = memberform.phone.data,
+            address = memberform.address.data,
+            agreecheck = memberform.agreecheck.data
+            )
+
+        # try:
+        db.session.commit()
+        flash('會員資料已更新！')
+        return redirect(url_for('member.member_center'))
+            
+        # except:
+        #     return "Updating issue." # 如果db更新失敗了顯示錯誤訊息
+
+
+    return render_template('LaitGood_member/member_center.html', memberform = memberform, user=user)

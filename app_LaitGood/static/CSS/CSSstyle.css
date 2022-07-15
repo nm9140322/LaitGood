@@ -487,9 +487,9 @@ li {
 
 .content{
     font-size: larger;
-    margin-left: 10%;
+    margin-right: 10%;
     text-align: center;
-    color:rgb(41, 187, 121)
+    color:rgba(58, 215, 178, 0.932);
 }
 
 
@@ -504,7 +504,8 @@ li {
 .story{
     display: flex;
     position: relative;
-    margin:10%;
+    margin:5%;
+    justify-content: space-evenly;
 }
 
 .storypic{
@@ -514,6 +515,33 @@ li {
     margin: 10px;
 }
 
+.product_submit{
+    margin-top: 5%;
+    margin-left: 12%;
+}
+
+.shop_productlist{
+    display: flex;
+    position: relative;
+    margin:5%;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+
+.amount_input{
+    text-align: center;
+
+}
+
+.amount_label{
+    font-weight: bold;
+    color: rgba(10, 51, 68, 0.75);
+}
+
+#product_amount{
+    text-align: center;
+}
 
 /* 抄作業，橫欄下拉式選單*/
 
@@ -613,3 +641,15 @@ li {
 .memberdown:hover .memberdown-content {
     display: block;
 }
+
+
+
+/* 台灣縣市二級下拉式選單 */
+select,.zipcode {
+    padding: 1%;
+    color: #495057;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+

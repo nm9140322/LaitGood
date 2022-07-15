@@ -1,0 +1,13 @@
+<!-- 定義macro，類似函式的概念  -->
+
+{% macro render_field(field) %}
+    <div class="login_user">
+        <label class="label_input">{{ field.label }}</label>
+        {{ field(**kwargs) }}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <p class="error_message">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}

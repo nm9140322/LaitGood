@@ -1,0 +1,30 @@
+{% extends 'admin/master.html' %} 
+
+<!--  風格樣式保持一致，所以要繼承admin/master.html的父模板 -->
+{% block body %}
+    <h1>後台管理系統-好評推薦上傳</h1>
+
+    <form method="POST" action="{{ url_for('commendsupload.commendsupload') }}" enctype="multipart/form-data">
+        {{ commendsform.csrf_token }}
+        {{ commendsform.hidden_tag() }}
+        <div>
+        
+            {{ commendsform.imgbtn_uploads}}
+            {# error message #}
+            {% for error in commendsform.imgbtn_uploads.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+
+        </div>
+
+    {% from "LaitGood_admins/_userform.html" import render_field %}
+        <div>            
+            {{ render_field(commendsform.title) }}
+            {{ render_field(commendsform.slogan) }}
+            {{ render_field(commendsform.url) }}
+        </div>
+        <div>
+        {{ commendsform.submit }}
+        </div>
+    </form>
+{% endblock %}

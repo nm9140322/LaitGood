@@ -1,0 +1,16 @@
+
+<body style='background-color:rgb(232, 252, 242); font-family: "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif, serif;color: rgb(47, 79, 79);'>
+    <div style=" width: 400px;height:fit-content;padding: 13px;position:relative;margin: 5% auto 5% auto;
+    background-color: rgba(87, 254, 238, 0.756);border-radius: 10px;text-align: center;">
+        <h1>親愛的日果客戶 {{ orderdeliver.pay.username }} ，您好</h1>
+        <br>
+        <p>您在日果訂購的商品已經出貨囉！</p>
+        <br>
+        <h2>訂單相關資訊如下：</h2>
+        <p> 訂單編號： {{ orderdeliver.order_number }} </p>
+        <p> 訂單總額： {{ orderdeliver.pay.pay_price }} </p>
+
+        <br>
+        <h4>請隨時注意收貨，日果全體誠摯希望得到您對本公司產品的青睞，謝謝惠顧！</h4>
+    </div>
+</body>

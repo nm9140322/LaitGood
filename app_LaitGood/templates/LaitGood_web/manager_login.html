@@ -19,6 +19,7 @@
     
 
     <form method='post' action="{{ url_for('web.manager_login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <p>
         <input type='text' name='username' placeholder="輸入管理者帳號">
     </p>

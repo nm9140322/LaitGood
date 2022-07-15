@@ -41,10 +41,9 @@
             <div id="row_header">
                 <div id="headline">
                     <div id="searchbar">                     
-                        <form method="POST" action="{{ url_for('web.search') }}" >                   
-                            <input class="searchtext" type="text" placeholder="{{_('搜尋產品關鍵字')}}" name="search">
-                            <button class="searchbtn">{{ _('搜尋') }}</button>               
-                        </form>
+                        <!-- 關鍵字搜尋區，待施工 -->
+                        <input class="searchtext" type="text" placeholder="{{_('搜尋產品關鍵字')}}" name="search">
+                        <button class="searchbtn">{{ _('搜尋') }}</button>               
                     </div>
                     <div id="usersection">
                         {% if current_user.is_authenticated %}
@@ -52,7 +51,8 @@
                             <span style="cursor: pointer;">{{ current_user.username }}</span>            
                             <span class="usericon"><img src="/static/img/ICON/user.png", onmouseover="this.src='/static/img/ICON/user_color.png'", onmouseout="this.src='/static/img/ICON/user.png'", width="30" alt="會員中心"></span> <!--註冊/登入->跳轉會員中心頁面-->
                             <div class="memberdown-content">
-                                <a href="#">{{ _('會員中心') }}</a>
+                                <a href="{{ url_for('member.member_center') }}">{{ _('會員中心') }}</a>
+                                <a href="{{ url_for('cart.LaitGood_ordersearch') }}">{{ _('訂單查詢') }}</a>
                                 <a href="{{ url_for('member.change_password') }}">{{ _('變更密碼') }}</a>
                                 <a href="{{ url_for('member.LaitGoodmember_logout') }}">{{ _('登出') }}</a>
                             </div>
@@ -60,7 +60,7 @@
                         {% else %}
                         <div class="usericon"><a href="{{ url_for('member.LaitGoodmember_login') }}"><img src="/static/img/ICON/user.png", onmouseover="this.src='/static/img/ICON/user_color.png'", onmouseout="this.src='/static/img/ICON/user.png'", width="30" alt="會員中心"></a></div>
                         {% endif %}
-                        <div class="usericon"><img src="/static/img/ICON/shopping-cart.png", onmouseover="this.src='/static/img/ICON/shopping-cart_color.png'", onmouseout="this.src='/static/img/ICON/shopping-cart.png'", width="30" alt="購物車"></div> <!--跳轉購物車頁面-->
+                        <div class="usericon"><a href="{{ url_for('cart.LaitGood_membercart') }}"><img src="/static/img/ICON/shopping-cart.png", onmouseover="this.src='/static/img/ICON/shopping-cart_color.png'", onmouseout="this.src='/static/img/ICON/shopping-cart.png'", width="30" alt="購物車"></a></div>
                     </div>
                     <div id="lang_change">
                         <div class="langicon"><img src="/static/img/ICON/globe.png", width="20" alt="語言"></div> <!--跳出下拉式選單改語言-->
@@ -80,13 +80,13 @@
                         <button class="dropbtn"><a href="{{ url_for('web.LaitGood_Aboutus') }}"> {{ _('關於我們') }}</a></button>
                         <div class="dropdown-content">
                         <a href="{{ url_for('web.LaitGood_Aboutus') }}">{{ _('品牌故事') }}</a>
-                        <a href="#">{{ _('好評推薦') }}</a>
+                        <a href="{{ url_for('web.LaitGood_commends') }}">{{ _('好評推薦') }}</a>
                         <a href="{{ url_for('web.LaitGood_QC') }}">{{ _('品質保證') }}</a>
                         </div>
                     </div>
-                    <div class="dropdown"><button class="dropbtn"><a href="{{ url_for('news.LaitGood_News') }}">{{ _('最新消息') }}</a></button></div> <!--跳轉最新消息頁面-->
-                    <div class="dropdown"><button class="dropbtn"><a href="#">{{ _('產品介紹') }}</a></button></div> <!--跳轉產品介紹頁面-->
-                    <div class="dropdown"><button class="dropbtn"><a href="{{ url_for('web.LaitGood_shop') }}">{{ _('線上購物') }}</a></button></div>
+                    <div class="dropdown"><button class="dropbtn"><a href="{{ url_for('web.LaitGood_News') }}">{{ _('最新消息') }}</a></button></div> <!--跳轉最新消息頁面-->
+                    <div class="dropdown"><button class="dropbtn"><a href="{{ url_for('web.LaitGood_productsintro') }}">{{ _('產品介紹') }}</a></button></div> <!--跳轉產品介紹頁面-->
+                    <div class="dropdown"><button class="dropbtn"><a href="{{ url_for('cart.LaitGood_Shoppinglist') }}">{{ _('線上購物') }}</a></button></div>
                     <div class="dropdown"><button class="dropbtn"><a href="{{ url_for('web.LaitGood_Contactus') }}">{{ _('聯絡我們') }}</button></a></div> <!--跳轉聯絡我們頁面-->
                 </nav>       
             </div>
@@ -119,7 +119,7 @@
                 <div class="socialmediaicon"><a href="https://www.facebook.com/" target="_blank"><img src="/static/img/ICON/facebook.png", onmouseover="this.src='/static/img/ICON/facebook_color.png'", onmouseout="this.src='/static/img/ICON/facebook.png'", height="30" alt="FB"></a></div> <!--跳轉到FB粉專-->
                 <div class="socialmediaicon"><a href="https://www.instagram.com/" target="_blank"><img src="/static/img/ICON/instagram.png", onmouseover="this.src='/static/img/ICON/instagram_color.png'", onmouseout="this.src='/static/img/ICON/instagram.png'", height="30" alt="IG"></a></div> <!--跳轉到IG粉專-->
                 <div class="socialmediaicon"><a href="https://twitter.com/" target="_blank"><img src="/static/img/ICON/twitter.png", onmouseover="this.src='/static/img/ICON/twitter_color.png'", onmouseout="this.src='/static/img/ICON/twitter.png'", height="30" alt="IG"></a></div> <!--跳轉到twitter官方帳號-->
-                <div class="socialmediaicon"><a href="https://line.me/" target="_blank"><img src="/static/img/ICON/line.png", onmouseover="this.src='./static/img/ICON/line_color.png'", onmouseout="this.src='/static/img/ICON/line.png'", height="30" alt="LINE"></a></div> <!--跳轉到LINE加好友QRCODE-->
+                <div class="socialmediaicon"><a href="https://line.me/" target="_blank"><img src="/static/img/ICON/line.png", onmouseover="this.src='/static/img/ICON/line_color.png'", onmouseout="this.src='/static/img/ICON/line.png'", height="30" alt="LINE"></a></div> <!--跳轉到LINE加好友QRCODE-->
                 <div class="socialmediaicon"><a href="mailto:nm9140322@gmail.com"><img src="/static/img/ICON/email.png", onmouseover="this.src='/static/img/ICON/email_color.png'", onmouseout="this.src='/static/img/ICON/email.png'", height="30" alt="MAIL"></a></div> <!--跳轉到寄MAIL-->
             </div>
         </footer>

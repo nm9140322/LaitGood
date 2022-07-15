@@ -1,0 +1,91 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 產品介紹{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block main %}
+
+<section>    
+    <br>
+    <h1 class="subtitle">產品介紹</h1>
+    <br> 
+    <div class="story">
+        <div class="emphasize">
+        <h2>茶優格</h2>
+        <br>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp
+                特選茶葉的選用及鮮奶品質的要求，
+                加上微生物專業背景篩選出最適合發酵菌酛及益生菌，
+                在不添加其他凝固用的食品添加物的情況下，
+                即可完美發酵製作出各種茶風味的固態型優格產品。
+            </p>
+            <br>
+            <br>
+            <div class="btn_login">
+                <a href="{{ url_for('cart.LaitGood_Shoppinglist') }}">手刀下單去</a>
+            </div>
+        </div>
+        <br>
+        <div class="storypic">
+            <img src="/static/img/LaitGood_Product_Package.jpeg" , height="300" alt="茶優格">
+        </div>  
+    </div>
+    <br> 
+    <br> 
+    <div class="story">
+
+        <div class="storypic">
+            <img src="/static/img/LaitGood_Product_Package.jpeg", height="300" alt="茶優酪乳">
+        </div>
+        <br>
+        <div class="emphasize">
+            <h2>茶優酪乳</h2>
+            <br>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp
+                特選茶葉的選用及鮮奶品質的要求，
+                加上微生物專業背景篩選出最適合發酵菌酛及益生菌，
+                在不添加其他凝固用的食品添加物的情況下，
+                僅利用不同的工法，
+                製作出各種茶風味的飲用型優酪乳產品。
+            </p>
+            <br>
+            <br>
+            <div class="btn_login">
+                <a href="{{ url_for('cart.LaitGood_Shoppinglist') }}">手刀下單去</a>
+            </div> 
+        </div>         
+    </div>
+    <br> 
+    <div class="story">
+        <div class="emphasize">
+            <h2>茶優格製品</h2>
+            <br>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp
+                應用健康美味的優格原料，
+                延伸加工製成了各式各樣不同的豐富食品，
+                例如優格果凍、優格粉及冷凍優格冰淇淋等等。
+            </p>
+            <br>
+            <br>
+            <div class="btn_login">
+                <a href="{{ url_for('cart.LaitGood_Shoppinglist') }}">手刀下單去</a>
+            </div>
+        </div>
+            <br>
+        <div class="storypic">
+            <img src="/static/img/LaitGood_Product_Package.jpeg" , height="300" alt="茶優格製品">
+        </div>
+    </div>
+    <br> 
+</section>  
+
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'admin/master.html' %} 
+
+<!--  風格樣式保持一致，所以要繼承admin/master.html的父模板 -->
+{% block body %}
+    <h1>後台管理系統-最新消息上傳</h1>
+
+    <form method="POST" action="{{ url_for('newsupload.Newsupload') }}" enctype="multipart/form-data">
+        {{ newsform.csrf_token }}
+        {{ newsform.hidden_tag() }}
+        <div>
+        
+            {{ newsform.imgbtn_uploads}}
+            {# error message #}
+            {% for error in newsform.imgbtn_uploads.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+
+        </div>
+
+    {% from "LaitGood_admins/_userform.html" import render_field %}
+        <div>            
+            {{ render_field(newsform.title) }}
+            {{ render_field(newsform.slogan) }}
+            {{ render_field(newsform.content) }}
+            {{ render_field(newsform.newsdate) }}
+        </div>
+        <div>
+        {{ newsform.submit }}
+        </div>
+    </form>
+{% endblock %}

@@ -1,9 +1,10 @@
 # wtform建立各種需要的Form
 
 from flask_wtf import FlaskForm # Flask表單
-from wtforms import StringField, SubmitField, validators, PasswordField, EmailField, ValidationError, BooleanField
+from wtforms import StringField, SubmitField, validators, PasswordField, EmailField, ValidationError, BooleanField, DateField, RadioField
 from app_LaitGood.LaitGood_member.model import UserRegister # 寫入使用者註冊資料前需要驗證email與username是否已被使用，從app_pack中Member資料夾裡的model.py引入UserReister (model)
 from flask_babelex import lazy_gettext
+import datetime
 
 # 註冊用的form
 class FormRegister(FlaskForm):
@@ -16,10 +17,10 @@ class FormRegister(FlaskForm):
     ])
     password = PasswordField(lazy_gettext('密  碼'), render_kw={'class':'searchtext', 'placeholder':  lazy_gettext('請同時包含英文及數字')}, validators=[
         validators.DataRequired(),
-        validators.Length(5, 10),  
+        validators.Length(5, 20),  
         validators.Regexp('\d.*[a-zA-Z]|[a-zA-Z].*\d', message=lazy_gettext('密碼請同時包含英文及數字'))     
     ])
-    password2 = PasswordField(lazy_gettext('確認密碼'), render_kw={'class':'searchtext'}, validators=[
+    password2 = PasswordField(lazy_gettext('確認密碼'), render_kw={'class':'searchtext', 'placeholder':  lazy_gettext('請再次輸入密碼')}, validators=[
         validators.DataRequired(),
         validators.EqualTo('password', message=lazy_gettext('密碼輸入有誤')) # 驗證兩次輸入的密碼是否相同，避免使用者輸入錯誤
     ])
@@ -56,17 +57,17 @@ class FormLogin(FlaskForm):
 # 密碼變更
 class FormChangePWD(FlaskForm):
     #  驗證舊密碼
-    password_old = PasswordField(lazy_gettext('舊密碼'), validators=[
+    password_old = PasswordField(lazy_gettext('舊密碼'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入舊密碼')},validators=[
         validators.DataRequired()
     ])
     #  新密碼
-    password_new = PasswordField(lazy_gettext('新密碼'), validators=[
+    password_new = PasswordField(lazy_gettext('新密碼'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入新密碼')},validators=[
         validators.DataRequired(),
-        validators.Length(5, 10),
+        validators.Length(5, 20),
         validators.Regexp('\d.*[a-zA-Z]|[a-zA-Z].*\d', message=lazy_gettext('密碼請同時包含英文及數字'))
     ])
     #  新密碼確認
-    password_new_confirm = PasswordField(lazy_gettext('新密碼確認'), validators=[
+    password_new_confirm = PasswordField(lazy_gettext('新密碼確認'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請再次輸入新密碼')}, validators=[
         validators.DataRequired(),
         validators.EqualTo('password_new', message=lazy_gettext('密碼輸入有誤'))
     ])
@@ -88,14 +89,40 @@ class FormResetPasswordMail(FlaskForm):
 
 #  重置密碼
 class FormResetPassword(FlaskForm):
-    password = PasswordField(lazy_gettext('重設密碼'), validators=[
+    password = PasswordField(lazy_gettext('重設密碼'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入新密碼')}, validators=[
         validators.DataRequired(),
-        validators.Length(5, 10),
-        validators.Regexp('\d.*[a-zA-Z]|[a-zA-Z].*\d', message=lazy_gettext('密碼請同時包含英文及數字'))
+        validators.Length(5, 20),
+        validators.Regexp('\d.*[a-zA-Z]|[a-zA-Z].*\d',  message=lazy_gettext('密碼請同時包含英文及數字'))
         
     ])
-    password_confirm = PasswordField(lazy_gettext('密碼確認'), validators=[
+    password_confirm = PasswordField(lazy_gettext('密碼確認'), render_kw={'class':'searchtext'}, validators=[
         validators.DataRequired(),
         validators.EqualTo('password', message=lazy_gettext('密碼輸入有誤'))
     ])
     submit = SubmitField(lazy_gettext('重設密碼'), render_kw={'class':'btn_login'})
+
+# 會員中心設定表單
+class MemberCenterForm(FlaskForm):
+    username = StringField(lazy_gettext('*會員帳號'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('英/數')}, validators=[
+        validators.DataRequired(),
+    ])
+    birthday = DateField(lazy_gettext('生  日'), render_kw={'class':'searchtext'} , validators=[
+        validators.Optional() # Allows empty input and stops the validation chain from continuing.
+    ])
+    gender = RadioField(lazy_gettext('性  別'), choices=[('Male','男性'),('Female','女性'),('Other', '其他')], render_kw={'class':'storypic'})
+    cellphone = StringField(lazy_gettext('手機號碼'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入您的手機號碼')}, validators=[
+        validators.Optional(),
+        validators.Regexp("^[0][9][0-9]{8}$", message=lazy_gettext("手機格式不符"))
+    ])
+    phone = StringField(lazy_gettext('聯絡電話'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入您的電話號碼')}, validators=[
+        validators.Optional(),
+        validators.Regexp("(\d{2,3}-?|\(\d{2,3}\))\d{3,4}-?\d{4}", message=lazy_gettext("電話號碼格式不符"))
+    ])
+    # 住址的部分，template直接用 TWzipcode套件弄成縣市下拉式選單，會員只要打後面的部分就好
+    address = StringField(lazy_gettext('聯絡地址'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入您的聯絡地址')})
+
+    agreecheck = BooleanField(lazy_gettext('訂閱電子報'))
+    
+    submit = SubmitField(lazy_gettext('更新資料'), render_kw={'class':'btn_login'})
+
+

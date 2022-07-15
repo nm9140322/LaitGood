@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+
+  web:
+    build: .
+    container_name: laitgood
+    # restart: always
+    environment:
+      - FLASK_APP=manager.py
+      - 'RUN=flask run --host=0.0.0.0 --port=80'
+    expose:
+      - 8080
+    depends_on:
+      - db
+
+  # db:
+  #   image: sqlite3:latest
+  #   volumes:
+  #     - ./:/root/app_LaitGood/static/database/
+
+  #   ports:
+  #     - 5000:5000

@@ -10,13 +10,28 @@ from flask_mail import Message
 class UserRegister(UserMixin, db.Model):
     __tablename__ = 'LaitGood_UserRegister' # 資料表名稱
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
-    password_hash = db.Column(db.String(50), nullable=False) # 保存加密過後密碼
+    password_hash = db.Column(db.String(120), nullable=False) # 保存加密過後密碼
+    agreecheck = db.Column(db.Boolean) # 同意條款並訂閱電子報
     registered_on = db.Column(db.DateTime, nullable=False) # 註冊日期
     confirm = db.Column(db.Boolean, default=False) # 記錄用戶是否已啟動驗證程序，預設為False
-    confirmed_on = db.Column(db.DateTime, nullable=True) # 驗證通過日期
+    confirmed_on = db.Column(db.DateTime) # 驗證通過日期
     roles = db.Column(db.Boolean, default=False) # 必須手動開通設定管理員身分
+    birthday = db.Column(db.Date)
+    gender = db.Column(db.String(10))
+    cellphone = db.Column(db.String(10))
+    phone = db.Column(db.String(10))
+    county = db.Column(db.String(5))
+    district = db.Column(db.String(5))
+    zipcode = db.Column(db.String(5))
+    address = db.Column(db.String(80))
+
+    # 會員加入購物車的(一對多)關聯式資料庫
+    db_member_cart = db.relationship("shopping_cart", backref="member", lazy='dynamic') # backref用於設定取用該資料表內容時的代稱
+    # 參數lazy='dynamic'可以讓SQLAlchemy在搜尋關聯資料的時候保留物件狀態，而非無法取用的list
+    db_member_order = db.relationship("shopping_order", backref="member", lazy='dynamic') # 訂單內容
+    db_member_ordernum = db.relationship("order_number", backref="member", lazy='dynamic') # 訂單標號
 
     # password利用裝飾器property變更屬性，在使用的時候實際上是hash並且賦值給予password_hash
     @property
@@ -30,8 +45,9 @@ class UserRegister(UserMixin, db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
+    # 後台顯示跟這裡有關
     def __repr__(self):
-        return 'username:%s, email:%s' % (self.username, self.email)
+        return '會員id：%s；會員帳號：%s；會員信箱：%s' % (self.id, self.username, self.email)
 
 
     # 利用itsdangerou產生驗證用的token (URL)

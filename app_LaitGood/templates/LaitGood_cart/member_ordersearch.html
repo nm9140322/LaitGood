@@ -1,0 +1,87 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 訂單查詢{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block main %}
+
+<!--訂單查詢頁面，待施工 -->
+
+<section>
+    <br>
+    <h1 class="subtitle">訂單查詢</h1>
+    <br>
+    <br>
+    <hr class="hrline">
+
+    <!-- Flash訊息區 -->
+    <div class="login_user">
+        {% with messages = get_flashed_messages() %} 
+        {% if messages %}  
+            {% for message in messages %}  
+                <span class="flashstyle">{{ message }}</span>
+            {% endfor %}  
+        {% endif %}  
+        {% endwith %} 
+    </div>
+
+    {% if ordernums_new %}
+    <div>
+        <table>
+            <tr>    
+                <th>訂單編號</th>     
+                <th>訂單金額</th>
+                <th>訂購日期</th>
+            </tr>
+        {% for ordernum in ordernums_new %}
+            <tr>
+                <td><a href="{{ url_for('cart.LaitGood_memberorder', pay_id=ordernum.pay_id) }}">{{ ordernum.order_number }}</a></td>
+                <td>{{ ordernum.pay.pay_price }}</td>
+                <td>{{ ordernum.order_date }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+
+    <br>
+    <hr class="hrline">
+    <br>
+
+    {% else %}
+    <h3>目前沒有還未完成的訂單，趕快去逛逛吧！</h3>
+    <br>
+    <br>
+    <div class="btn_login">
+      <a href="{{ url_for('cart.LaitGood_Shoppinglist') }}">選購去</a>
+    </div>
+    {% endif %}
+
+    {% if ordernums_old %}
+    <div>
+        <h3>歷史訂單紀錄</h3>
+        <br>
+        <hr class="hrline">
+        <table>
+            <tr>    
+                <th>訂單編號</th>     
+                <th>訂單金額</th>
+                <th>訂購日期</th>
+            </tr>
+        {% for ordernum in ordernums_old %}
+            <tr>
+                <td><a href="{{ url_for('cart.LaitGood_memberorder', pay_id=ordernum.pay_id) }}">{{ ordernum.order_number }}</a></td>
+                <td>{{ ordernum.pay.pay_price }}</td>
+                <td>{{ ordernum.order_date }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+</section>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

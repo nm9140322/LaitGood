@@ -1,0 +1,105 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 會員中心{% endblock %}
+
+{% block link %}
+<!-- 台灣二級縣市 -->
+<script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.0/dist/tw-city-selector.min.js"></script>
+{% endblock %}
+
+{% block main %}
+
+<!-- 會員中心更改資料區 -->
+
+<section>
+    <div>
+        <br>
+        <h1 class="subtitle">修改會員資料</h1>
+        <br>
+        <br>
+        <hr class="hrline">
+    </div>
+
+    <div id="login_frame">
+        <!-- Flash訊息區 -->
+        <div class="login_user">
+            {% with messages = get_flashed_messages() %} 
+            {% if messages %}  
+                {% for message in messages %}  
+                    <span class="flashstyle">{{ message }}</span>
+                {% endfor %}  
+            {% endif %}  
+            {% endwith %} 
+        </div>
+
+        {% from "LaitGood_member/_userform.html" import render_field %}
+        <!-- 實際利用Macro引入表單的區域 -->
+       
+        <form method="POST" enctype="multipart/form-data" >
+            {{ memberform.csrf_token }}
+            <br>
+            <label class="label_input">帳號信箱</label><span>{{ current_user.email }} </span>
+            {{ memberform.hidden_tag() }}
+            
+            <div class='register_user'>  
+                {{ render_field(memberform.username) }}
+                {{ render_field(memberform.birthday) }}   
+
+
+                <div class="story">
+                {% for genders in memberform.gender %}
+                        <tr>
+                            <td>{{ genders }}</td>
+                            <td>{{ genders.label }}</td>
+                        </tr>
+                {% endfor %}
+                </div>
+
+                {{ render_field(memberform.cellphone) }}
+                {{ render_field(memberform.phone) }}
+
+                <div class="city-selector-set" style="margin-right: 5%; display: inline-flex; align-items: center;">
+                    <div >
+                        <!-- 縣市選單 -->
+                        <select class="county" placeholder="選擇縣市"></select>
+                    </div>
+                    <div>
+                        <!-- 區域選單 -->
+                        <select class="district" placeholder="選擇區域"></select>
+                    </div>
+                    <div>
+                        <!-- 郵遞區號欄位 (readonly 屬性，防止修改) -->
+                        <input class="zipcode" type="text" name= "zipcode" size="3" readonly placeholder="郵遞區號" >
+                    </div>
+                </div>
+                    
+
+                {{ render_field(memberform.address) }}
+            </div>
+            <p class="register_agree">{{ memberform.agreecheck }} {{ memberform.agreecheck.label }}</p>
+
+            <hr class="hrline">
+            {{ memberform.submit }}
+
+        </form>
+    </div> 
+</section>
+{% endblock %}
+
+{% block script %}
+
+    <!-- 台灣二級縣市選單 -->
+    <script>
+        $(function () {
+            new TwCitySelector({
+                el: '.city-selector-set',
+                elCounty: '.county', // 在 el 裡查找 element
+                elDistrict: '.district', // 在 el 裡查找 element
+                elZipcode: '.zipcode', // 在 el 裡查找 element
+                countyValue: ['{{ user.county }}'], // 指定選單預設值，注意此項為關聯參數
+                districtValue: ['{{ user.district }}']
+            });
+        })
+
+    </script>
+{% endblock %}

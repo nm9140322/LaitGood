@@ -1,0 +1,82 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 產品販售{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block main %}
+<!-- 產品販售頁 -->
+<section>     
+    <br>
+    <h1 class="subtitle">日果產品</h1>
+    <br>
+    <br>
+    <hr class="hrline">
+
+    <!-- Flash訊息區 -->
+    <div class="login_user">
+        {% with messages = get_flashed_messages() %} 
+        {% if messages %}  
+            {% for message in messages %}  
+                <span class="flashstyle">{{ message }}</span>
+            {% endfor %}  
+        {% endif %}  
+        {% endwith %} 
+    </div>
+    
+    <div class="story">
+        <div class="storypic">
+            <img src="{{ products.product_image }}", height="200" alt="日果產品">
+        </div>
+        <div class="storypic">
+            <h2 class="content">品名：<br> {{ products.product_name }} </h2>
+            <br>
+            <p class="content">規格：<br> {{ products.product_package }} </p>
+            <br>
+            <br>
+            <!-- 沒有售價就秀定價 -->
+            {% if products.product_sellprice == None %}
+                <br><br>
+                <p class="content">定價：<br> $ {{ products.product_price }} </p>
+            {% else %}
+                <p class="content">定價：<br><del> $ {{ products.product_price }} </del></p>
+                <p class="content">售價：<br> $ {{ products.product_sellprice }} </p>
+            {% endif %}
+            <br>
+            <p class="content">介紹：<br> {{ products.product_intro }} </p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
+            {% from "LaitGood_cart/_userform.html" import render_field %}
+            <div>            
+              {{ render_field(form.product_amount) }}
+            </div>
+            <div class='product_submit'>
+              {{ form.submit }}
+            </div>
+          </form>
+
+    </div>
+    <hr class="hrline">
+
+    <br>
+    <br>
+
+</section>  
+{% endblock %}
+
+{% block script %}
+{% if current_user.is_authenticated %}
+    <script> //加入購物車按鈕
+        $(function(){
+            $(".btn_login").click(function(){                  
+                alert('成功加入購物車！');
+                }
+            )
+        })
+    </script>
+{% endif %}
+{% endblock %}

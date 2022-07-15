@@ -31,3 +31,43 @@ def contact_sendmail(subject, recipients, template, **kwargs):
     thr.start()
     return thr  
 
+# 最新消息資料表：圖片檔、標題、重點、內文、日期
+class Newsdata(db.Model):
+    __tablename__='LaitGood_Newsdata'
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(80), nullable=False)
+    title = db.Column(db.String(80), nullable=False)
+    slogan = db.Column(db.String(80))
+    content = db.Column(db.String(80))
+    newsdate = db.Column(db.Date, nullable=False)
+
+    def __init__(self, image, title, slogan, content, newsdate ):
+        self.image = image
+        self.title = title
+        self.slogan = slogan
+        self.content = content
+        self.newsdate  = newsdate 
+
+    def __repr__(self):
+        return 'title:%s, newsdate:%s' % (self.title, self.newsdate)
+
+
+# 好評推薦資料表：圖片檔、標題、重點、連結網址
+class commends_data(db.Model):
+    __tablename__='LaitGood_commends_data'
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(80), nullable=False)
+    title = db.Column(db.String(80), nullable=False)
+    slogan = db.Column(db.String(80))
+    url = db.Column(db.String(80), nullable=False)
+
+    def __init__(self, image, title, slogan, url):
+        self.image = image
+        self.title = title
+        self.slogan = slogan
+        self.url  = url
+
+    def __repr__(self):
+        return 'title:%s, url:%s' % (self.title, self.url)
+
+

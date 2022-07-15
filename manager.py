@@ -3,17 +3,34 @@
 # 工廠模式
 from app_LaitGood import create_app
 
-app = create_app('development')
+app = create_app('development') # development/production
+# app.run(host='0.0.0.0', port=8000)
 app.run()
+
 
 # print(app.url_map) # 透過app.url_map可以查詢專案所有路由清單，可以用來看執行狀況
 
 
 
+# 單元測試，寫入 CLI
+# 1. $env:FLASK_APP = "manager.py" # 指定運行檔
+# 2. flask test # 運行測試
+@app.cli.command()
+def test():
+    import unittest
+    import sys
+
+    tests = unittest.TestLoader().discover("tests")
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.errors or result.failures:
+        sys.exit(1)
+
+
+
 # Flask 內建的 command line script 指令，在終端機輸入以下指令來運行 Flask：
-# 1. set FLASK_APP=main.py # 環境設定待會 flask run 時，指定運行的 py 檔是 main.py
-# 2. $env:FLASK_APP = "main.py" (和第一步驟擇一，看哪個找得到)
-# 3. flask run --reload --debugger --host 0.0.0.0 --port 80 # 運行 Flask
+# 1. set FLASK_APP=manager.py # 環境設定待會 flask run 時，指定運行的 py 檔是 main.py
+# 2. $env:FLASK_APP = "manager.py" (和第一步驟擇一，看哪個找得到)
+# 3. flask run --reload --debugger --host 0.0.0.0 --port 80 # 運行 flask run
 
 
 # 把該專案上傳至Github，在終端機輸入指令：

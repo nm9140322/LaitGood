@@ -1,0 +1,16 @@
+
+<body style='background-color:rgb(232, 252, 242); font-family: "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif, serif;color: rgb(47, 79, 79);'>
+    <div style=" width: 400px;height:fit-content;padding: 13px;position:relative;margin: 5% auto 5% auto;
+    background-color: rgba(87, 254, 238, 0.756);border-radius: 10px;text-align: center;">
+        <h1>親愛的日果客戶 {{ ordernum.pay.username }} ，您好</h1>
+        <br>
+        <p>感謝您訂購本公司產品</p>
+        <br>
+        <h2>誠摯感謝您訂購本公司產品，本次訂單資訊如下：</h2>
+        <p> 訂單編號：{{ ordernum.order_number }} </p>
+        <p> 訂單總額： {{ ordernum.pay.pay_price }} </p>
+
+        <br>
+        <h4>此信僅作為通知訂單成立，若訂單有任何問題，請先至會員訂單查詢中，取消本筆訂單並重新下訂。</h4>
+    </div>
+</body>

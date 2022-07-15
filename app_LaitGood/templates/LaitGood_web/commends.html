@@ -1,0 +1,60 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 好評推薦{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block main %}
+
+<section>     
+    <br>
+    <h1 class="subtitle">好評推薦</h1>
+    <br>
+    <br>
+    <hr class="hrline">
+    
+    <!-- 使用分頁功能要記得把其改成回傳物件items -->
+    {% for commend in commends.items %}
+    <div class="story">
+        <div class="storypic">
+            <img src="{{ commend.image }}", height="200" alt="最新消息">
+        </div>
+        <div class="storypic">
+            <h2 class="content">{{ commend.title }} </h2>
+            <br>
+            <p class="content">{{ commend.slogan }} </p>
+            <br>
+            <br>
+        </div>
+        <div class="storypic">
+            <a  href="{{ commend.url }}", target="_blank">繼續閱讀</a>
+        </div>
+    </div>
+    <hr class="hrline">
+    {% endfor %}
+
+    <br>
+    <br>
+
+        <!---  分頁功能  --->
+    <div class="content">
+        {% for page in commends.iter_pages() %}
+        {% if page %}
+          {% if page != commends.page %}
+            <a href="{{ url_for('web.LaitGood_commends', page=page) }}">{{ page }}</a>
+          {% else %}
+            <strong>{{ page }}</strong>
+          {% endif %}
+        {% else %}
+          <span class=ellipsis>…</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+</section>  
+
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

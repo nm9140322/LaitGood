@@ -1,0 +1,124 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 訂單資訊{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block main %}
+
+<!-- 訂單資訊頁，樣式待修 -->
+<!-- 付款部分，待施工 -->
+<section>     
+  <br>
+  <h1 class="subtitle">訂單資訊</h1>
+  <br>
+  <br>
+  <hr class="hrline">
+
+  <!-- Flash訊息區 -->
+  
+  {% with messages = get_flashed_messages() %} 
+  {% if messages %} 
+      <div class="login_user">
+          {% for message in messages %}  
+              <span class="flashstyle">{{ message }}</span>
+          {% endfor %}  
+      </div>
+  {% endif %}  
+  {% endwith %} 
+
+  {% if ordernum %} 
+    <h2>親愛的會員 {{ current_user.username }} 您好，日果感謝您的訂購！</h2>
+    <br>
+    <h3>本次訂購內容如下：</h3>
+    <br>
+    <br>
+
+    <div>
+      <table>
+        <tr>    
+          <th>產品照</th>     
+          <th>品名</th>
+          <th>規格</th>
+          <th>價格</th>
+          <th>數量</th>
+        </tr>
+        <hr class="hrline">
+        {% for orderthing in orderlist %}
+        <tr>
+          <td><img src="{{ orderthing.product.product_image }}", height="100" alt="訂購產品"></td>
+          <td>{{ orderthing.product.product_name }}</td>
+          <td>{{ orderthing.product.product_package }}</td>
+          <!-- 沒有售價就秀定價 -->
+          {% if orderthing.product.product_sellprice == None %}
+            <td>$ {{ orderthing.product.product_price }}</td>
+          {% else %}
+            <td>$ {{ orderthing.product.product_sellprice }}</td>
+          {% endif %}
+          <td>{{ orderthing.order_amount }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      
+      <hr class="hrline">
+
+      <h3>訂購人資訊：</h3>
+      <br>
+      <div>
+        <p><label class="label_input">訂購姓名：</label><span> {{ ordernum.pay.username }} </span></p>
+        <p><label class="label_input">聯絡信箱：</label><span> {{ ordernum.pay.email }} </span></p>
+        <p><label class="label_input">手機號碼：</label><span> {{ ordernum.pay.cellphone }} </span></p>
+        <p><label class="label_input">聯絡電話：</label><span> {{ ordernum.pay.phone }} </span></p>
+        <p><label class="label_input">聯絡地址：</label><span> {{ ordernum.pay.zipcode }} &nbsp&nbsp {{ ordernum.pay.county }} {{ ordernum.pay.district }} &nbsp {{ ordernum.pay.address }} </span></p>
+      </div>
+      <br>
+
+      <hr class="hrline">
+      <div class="storypic">
+            <p class="content">訂單編號：{{ ordernum.order_number}} </p>
+            <p class="content">總價：$ {{ ordernum.pay.pay_price }} </p>
+      </div> 
+      <hr class="hrline">
+      <br>
+
+
+      {% if ordernum.order_finish == True %}
+      <!-- 已完成歷史訂單 -->
+      <h4>感謝您對日果產品的支持，本筆訂單已完成。</h4>
+
+      {% elif ordernum.order_deliver == True %}
+      <!-- 已出貨 -->
+      <h4>感謝您對日果產品的支持，訂購的商品已經在路上囉！</h4>
+ 
+      {% else %}
+      <!-- 取消此訂單 -->
+      <h4>如果訂單有任何問題，請先取消本筆訂單並重新下訂。</h4>
+      <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="submit" value="取消訂單" name="cancel" class="btn_login">
+      </form>
+      <br>
+      <hr class="hrline">
+      <br>
+      {% endif %}
+
+      {% if ordernum.order_paymethod == '尚未付款' %}
+      <!-- 前往付款頁 -->
+      <h4>此筆訂單尚未付款，請先進行線上付款動作後，我們才會開始配送喔！</h4>
+      <div class="btn_login">
+        <a href="{{ url_for('cart.LaitGood_toecpay', ordernum_id = ordernum.ordernum_id) }}">線上付款去</a>
+      </div>
+      {% endif %}
+
+      <br>
+
+    </div>
+    <br>
+    <br>
+  {% endif %}
+</section>  
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -26,6 +26,7 @@
     </div>
     <!-- 實際利用Macro引入表單的區域 -->
     <form method="POST" action="" >
+        {{ form.csrf_token }}
         {{ form.hidden_tag() }}
         <div class='register_user'>            
             {{ render_field(form.email) }}
@@ -154,5 +155,5 @@
         contentType:"application/json",
       });
     }
-  </script>
+</script>
 {% endblock %}

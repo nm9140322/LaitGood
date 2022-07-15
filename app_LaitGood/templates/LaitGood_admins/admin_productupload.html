@@ -1,0 +1,32 @@
+{% extends 'admin/master.html' %} 
+
+<!--  風格樣式保持一致，所以要繼承admin/master.html的父模板 -->
+{% block body %}
+    <h1>後台管理系統-產品購物上傳</h1>
+
+    <form method="POST" action="{{ url_for('productupload.Productupload') }}" enctype="multipart/form-data">
+        {{ productform.csrf_token }}
+        {{ productform.hidden_tag() }}
+        <div>
+        
+            {{ productform.imgbtn_uploads}}
+            {# error message #}
+            {% for error in productform.imgbtn_uploads.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+
+        </div>
+
+        {% from "LaitGood_admins/_userform.html" import render_field %}
+        <div>            
+            {{ render_field(productform.product_name) }}
+            {{ render_field(productform.product_package) }}
+            {{ render_field(productform.product_price) }}
+            {{ render_field(productform.product_sellprice) }}
+            {{ render_field(productform.product_intro) }}
+        </div>
+        <div>
+            {{ productform.submit }}
+        </div>
+    </form>
+{% endblock %}

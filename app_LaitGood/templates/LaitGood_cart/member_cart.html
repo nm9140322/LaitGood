@@ -1,0 +1,124 @@
+{% extends "LaitGoodbase.html" %}
+
+{% block title %}日果LaitGood 會員購物車{% endblock %}
+
+{% block link %}
+{% endblock %}
+
+{% block main %}
+
+<!-- 會員購物車頁，樣式待改 -->
+<section>     
+    <br>
+    <h1 class="subtitle">購物車</h1>
+    <br>
+    <br>
+    <hr class="hrline">
+
+    <!-- Flash訊息區 -->
+    <div class="login_user">
+      {% with messages = get_flashed_messages() %} 
+      {% if messages %}  
+          {% for message in messages %}  
+              <span class="flashstyle">{{ message }}</span>
+          {% endfor %}  
+      {% endif %}  
+      {% endwith %} 
+    </div>
+
+    {% if member == None %}
+      <h3>目前購物車是空的，趕快去逛逛吧！</h3>
+      <br>
+      <br>
+      <div class="btn_login">
+        <a href="{{ url_for('cart.LaitGood_Shoppinglist') }}">選購去</a>
+      </div>
+
+    {% else %}
+      <h3>親愛的會員 {{ member.member.username }} 您好，您的購物車中有以下商品，請確認：</h3>
+      <br>
+      <br>
+
+      <div>
+        <table >
+          <tr>    
+            <th>產品照</th>     
+            <th>品名</th>
+            <th>規格</th>
+            <th>價格</th>
+            <th>數量</th>
+            <th>刪除</th>
+          </tr>
+          <hr class="hrline">
+          {% for cart in membercart %}
+          <tr>
+            <td><img src="{{ cart.product.product_image }}", height="100" alt="訂購產品"></td>
+            <td>{{ cart.product.product_name }}</td>
+            <td>{{ cart.product.product_package }}</td>
+            <!-- 沒有售價就秀定價 -->
+            {% if cart.product.product_sellprice == None %}
+              <td>$ {{ cart.product.product_price }}</td>
+            {% else %}
+              <td>$ {{ cart.product.product_sellprice }}</td>
+            {% endif %}
+            
+            {% if activity_buyonegetfree.activity_on == True %}
+              <td>{{ cart.cart_amount*activity_buyonegetfree.activity_dataset }} (買就送)</td>
+            {% else %}
+              <td>{{ cart.cart_amount }}</td>
+            {% endif %}
+            <td>
+            <form method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input hidden name="cart_id" value="{{ cart.cart_id }}">
+              <input type="submit" value="刪除" name="delete">
+            </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        <hr class="hrline">
+
+        <div class="storypic">
+          
+            <p class="content">商品總額：
+              {% if activity_alldiscount.activity_on == True %}
+                <del>$ {{ totalprice }}</del></p>
+                <p class="content">全館折扣優惠：
+              {% endif %}
+              $ {{ new_totalprice }} </p>
+              
+          {% if activity_allfeefree.activity_on == True %}
+            <p class="content">全館免運活動</p>
+          {% elif activity_spendfeefree.activity_on == True %}
+            {% if freethreshold > 0 %}
+              <p class="content">運費：$ {{ fee }}  （您還差 $ {{ freethreshold }} 就達到免運門檻囉！）</p>
+            {% else %}
+              <p class="content">恭喜，您已達到免運門檻囉！</p>
+            {% endif %}
+          {% else %}
+            <p class="content">運費：$ {{ fee }}</p>
+          {% endif %}
+
+          <p class="content">訂單總價：$ {{ totalpricefee }}</p>
+          <br>
+          <hr class="hrline">
+          <br>
+          <p><span class="logintext">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp還想買更多嗎？</span><a class="hreftext" href="{{ url_for('cart.LaitGood_Shoppinglist') }}">繼續選購</a></p>
+          <br>
+          <h4>確認無誤後，請前往填寫訂購人及付款資訊：</h4>
+          <br>
+          <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="submit" value="填寫資料" name= 'paydata' class="btn_login">
+          </form>
+        </div> 
+      </div>
+    {% endif %}
+      <br>
+      <br>
+</section>  
+{% endblock %}
+
+{% block script %}
+{% endblock %}

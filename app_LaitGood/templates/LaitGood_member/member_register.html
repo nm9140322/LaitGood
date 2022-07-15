@@ -12,6 +12,7 @@
 <section id="login_frame">
     <!-- 實際利用Macro引入表單的區域 -->
     <form method="POST" action="{{ url_for('member.LaitGoodmember_register') }}" >
+        {{ form.csrf_token }}
         {{ form.hidden_tag() }}
         <div class='register_user'>            
             {{ render_field(form.username) }}
@@ -20,6 +21,7 @@
             {{ render_field(form.password2) }}
         </div>
         <hr class="hrline">
+        <!-- agreecheck需要再用JQuery改成一定要True，不然會跳出警告 -->
         <p class="register_agree">{{ form.agreecheck }} {{ form.agreecheck.label }}</p>
         {{ form.submit }}
 
