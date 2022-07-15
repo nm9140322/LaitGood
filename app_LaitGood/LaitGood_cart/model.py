@@ -211,8 +211,8 @@ class Transaction(db.Model):
     __tablename__='LaitGood_Transaction'
     t_id = db.Column(db.Integer, primary_key=True)
     total_price = db.Column(db.Integer, nullable=False)
-    trade_num  = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.Integer, nullable=False)
+    trade_num  = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(5), nullable=False)
 
     # 訂單編號的一對多關聯式資料庫
     ordernum_id = db.Column(db.Integer, db.ForeignKey('LaitGood_ordernumber.ordernum_id'), nullable=False)

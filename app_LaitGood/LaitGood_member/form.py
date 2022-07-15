@@ -4,7 +4,6 @@ from flask_wtf import FlaskForm # Flask表單
 from wtforms import StringField, SubmitField, validators, PasswordField, EmailField, ValidationError, BooleanField, DateField, RadioField
 from app_LaitGood.LaitGood_member.model import UserRegister # 寫入使用者註冊資料前需要驗證email與username是否已被使用，從app_pack中Member資料夾裡的model.py引入UserReister (model)
 from flask_babelex import lazy_gettext
-import datetime
 
 # 註冊用的form
 class FormRegister(FlaskForm):

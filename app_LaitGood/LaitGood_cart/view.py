@@ -446,7 +446,7 @@ def end_return():
 
     return '1|OK' # 如有接收成功，官方要求回應1|OK
 
-# 綠界Client端回傳付款結果（ OrderResultURL 接收）頁，待測！
+# 綠界Client端回傳付款結果（ OrderResultURL 接收）頁
 @csrf.exempt # 使用裝飾器排除crsf來源請求
 @cart.route('/trad_result', methods=['GET', 'POST'])
 def end_page():
@@ -476,12 +476,10 @@ def end_page():
             
             db.session.commit()
             flash('付款交易成功，感謝惠顧！')
-            # return redirect(url_for('cart.LaitGood_memberorder', pay_id=trade_detail.ordernum.pay_id)) # 這邊和login-required卡到，待修
             return render_template('flashmessage.html')
 
         # 判斷回傳資訊，失敗則跳轉至失敗頁面
         else:
             flash('付款交易失敗，詳情請洽客服')
-            # return redirect(url_for('cart.LaitGood_memberorder', pay_id=trade_detail.ordernum.pay_id))
             return render_template('flashmessage.html')
 
