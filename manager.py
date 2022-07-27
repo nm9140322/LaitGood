@@ -4,8 +4,8 @@
 from app_LaitGood import create_app
 
 app = create_app('testing') # development/production
-# app.run(host='0.0.0.0', port=5000)
-app.run()
+app.run(host='0.0.0.0')
+# app.run()
 
 
 # print(app.url_map) # 透過app.url_map可以查詢專案所有路由清單，可以用來看執行狀況
