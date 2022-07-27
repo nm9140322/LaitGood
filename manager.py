@@ -2,9 +2,10 @@
 
 # 工廠模式
 from app_LaitGood import create_app
+import os 
 
 app = create_app('testing') # development/production
-app.run(host='0.0.0.0')
+app.run(host='0.0.0.0', port=os.environ.get("PORT", 5000))
 # app.run()
 
 
