@@ -19,7 +19,7 @@ class BaseConfig:
     # 寄信STMP
     # os.environ.get用來取得環境變數，避免敏感資訊置於公開場合 (github)
     MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 587 # 587
+    MAIL_PORT = 465 # 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME') # 終端機設置 $env:MAIL_USERNAME = "YOUR MAIL COUNT"
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') # 終端機設置 $env:MAIL_PASSWORD = "YOUR MAIL PASSWORD"
