@@ -56,7 +56,10 @@ class DevelopmentConfig(BaseConfig): # 開發環境
 class TestingConfig(BaseConfig): # 測試環境
     TESTING = True
     WTF_CSRF_ENABLED = False # flask-wtf 用 csrf_token處理 CSRF 的攻擊，測試時不會像正常使用一樣實際按下送出，而是直接傳資料到後端會被 csrf_token 擋下來，所以要關掉。  
-    SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\test_laitgood_register.sqlite')
+    # SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\test_laitgood_register.sqlite')
+    # HEROKU部署
+    SQLALCHEMY_DATABASE_URI = 'postgres://utniollmsipxww:3f17b850703e32d52e31bff22109a8abb375fee91046f52d16eff935766e1aa7@ec2-54-161-255-125.compute-1.amazonaws.com:5432/d9e5ou332i75bu'
+    
 
 class ProductionConfig(BaseConfig): # 正式環境
     # SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")
