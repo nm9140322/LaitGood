@@ -1,1 +1,1 @@
-web gunicorn manager:app --preload
+web gunicorn manager:app --preload --workers=1
