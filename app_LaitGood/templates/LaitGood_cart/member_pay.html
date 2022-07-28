@@ -36,14 +36,14 @@
         <br>
         <br>
         <form method="POST" enctype="multipart/form-data">
-            {{ form.csrf_token }}
-            {{ form.hidden_tag() }}
+            {{ payform.csrf_token }}
+            {{ payform.hidden_tag() }}
             
             <div class='register_user'>  
-                {{ render_field(form.username) }}
-                {{ render_field(form.email) }}
-                {{ render_field(form.cellphone) }}
-                {{ render_field(form.phone) }}
+                {{ render_field(payform.username) }}
+                {{ render_field(payform.email) }}
+                {{ render_field(payform.cellphone) }}
+                {{ render_field(payform.phone) }}
 
                 <div class="city-selector-set" style="margin-right: 5%; display: inline-flex; align-items: center;">
                     <div>
@@ -60,11 +60,11 @@
                     </div>
                 </div>
 
-                {{ render_field(form.address) }}
-                {{ render_field(form.pay_method) }}
+                {{ render_field(payform.address) }}
+                {{ render_field(payform.pay_method) }}
 
                 <hr class="hrline">
-                {{ form.submit }}
+                {{ payform.submit }}
         </form>
     </div>
 

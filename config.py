@@ -50,7 +50,7 @@ class DevelopmentConfig(BaseConfig): # 開發環境
     UPLOADED_DEF_URL = '/static/image_upload/' # 調用文件時的連結
 
     # SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\laitgood_register.sqlite')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') # 終端機設置 $env:DATABASE_URI = "mysql+pymysql://帳號:密碼@localhost:3306/laitgood_db" # MySQL
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') # 終端機設置 $env:DATABASE_URI = "mysql+pymysql://帳號:密碼@localhost:3306/laitgood_db" # MySQL
     SQLALCHEMY_DATABASE_URI = 'postgres://utniollmsipxww:3f17b850703e32d52e31bff22109a8abb375fee91046f52d16eff935766e1aa7@ec2-54-161-255-125.compute-1.amazonaws.com:5432/d9e5ou332i75bu'
     
 class TestingConfig(BaseConfig): # 測試環境
@@ -58,8 +58,8 @@ class TestingConfig(BaseConfig): # 測試環境
     WTF_CSRF_ENABLED = False # flask-wtf 用 csrf_token處理 CSRF 的攻擊，測試時不會像正常使用一樣實際按下送出，而是直接傳資料到後端會被 csrf_token 擋下來，所以要關掉。  
     
     # 檔案上傳功能，『DEF』來自實作UploadSet的參數 (__init__.py)
-    UPLOADED_DEF_DEST = './app_LaitGood/static/image_upload/testing_img' # 檔案上傳放置路徑
-    UPLOADED_DEF_URL = '/static/image_upload/testing_img/' # 調用文件時的連結
+    UPLOADED_DEF_DEST = './app_LaitGood/static/image_upload' # 檔案上傳放置路徑
+    UPLOADED_DEF_URL = '/static/image_upload/' # 調用文件時的連結
     
     # SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\test_laitgood_register.sqlite')
     # HEROKU部署

@@ -299,18 +299,24 @@ class OrderDeliver(BaseView):
         if deliverform.validate_on_submit():
             ordernumber = deliverform.order_number.data # 訂單編號
             orderdeliver = order_number.query.filter_by(order_number=ordernumber).first()
-            # 寄信通知會員產品出貨
-            cart_sendmail(
-                subject='您訂購的日果產品已出貨',
-                template='LaitGood_admins/mail/orderdeliver_mail',
-                recipients = [orderdeliver.pay.email],
-                orderdeliver=orderdeliver
-                )
-            # 改訂單的出貨狀態
-            orderdeliver.order_deliver = True
-            db.session.commit()
-            print('訂單編號', orderdeliver.order_number,'出貨狀況改為「已出貨」')
-            flash('訂單編號：%s，出貨狀態改為「已出貨」並寄信通知客戶囉！' % (orderdeliver.order_number))
+            if orderdeliver:
+                if orderdeliver.order_deliver == True:
+                    flash('本筆訂單（%s）已經出貨過囉，請重新確認！' % (orderdeliver.order_number))
+                else:
+                    # 寄信通知會員產品出貨
+                    cart_sendmail(
+                        subject='您訂購的日果產品已出貨',
+                        template='LaitGood_admins/mail/orderdeliver_mail',
+                        recipients = [orderdeliver.pay.email],
+                        orderdeliver=orderdeliver
+                        )
+                    # 改訂單的出貨狀態
+                    orderdeliver.order_deliver = True
+                    db.session.commit()
+                    print('訂單編號', orderdeliver.order_number,'出貨狀況改為「已出貨」')
+                    flash('訂單編號：%s，出貨狀態改為「已出貨」並寄信通知客戶囉！' % (orderdeliver.order_number))
+            else:
+                flash('查無此訂單編號，請重新確認！')
         
         return self.render('LaitGood_admins/admin_deliversendmail.html', form = deliverform)
 

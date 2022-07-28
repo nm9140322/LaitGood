@@ -84,7 +84,7 @@ class order_number(db.Model):
     ordernum_id = db.Column(db.Integer, primary_key=True)
     order_number = db.Column(db.String(15), nullable=False) # 訂單編號規則(日期-6隨機碼流水號)：yyyymmddXXXXXX
     order_date = db.Column(db.Date) # 訂購日期
-    order_paymethod = db.Column(db.String(10)) # 付款狀況：到貨付款/尚未付款/已付款-yyyymmdd
+    order_paymethod = db.Column(db.String(15)) # 付款狀況：到貨付款/尚未付款/已付款-yyyymmdd
     order_deliver = db.Column(db.Boolean, default=False) # 出貨狀況：尚未出貨/已出貨，後臺手動更改
     order_finish = db.Column(db.Boolean, default=False) # 訂單配送完成，後臺手動更改
     

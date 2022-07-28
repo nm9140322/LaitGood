@@ -133,15 +133,14 @@ def LaitGood_membercart():
     
     # 訂單總價 (四捨五入)
     totalpricefee = round(new_totalprice + fee)
-
+    user = current_user
+    payform = OrderPayForm(obj=user) # 訂購人表單
+    
     # 刪除項目/進入填寫訂購資訊頁
     if request.method == 'POST':
         delete = request.form.get('delete')
         paydata = request.form.get('paydata')
-        
-        user = current_user
-        payform = OrderPayForm(obj=user)
-        
+    
         if delete == '刪除':
             delete_cart_id = request.form.get('cart_id')
             product_del = shopping_cart.query.filter_by(cart_id=delete_cart_id).first()
@@ -153,10 +152,11 @@ def LaitGood_membercart():
         elif paydata == '填寫資料':
             # 先從會員表代入資料，使用者可以修改且不會動到原本的會員資料
             payform.populate_obj(user)
-            return render_template('LaitGood_cart/member_pay.html', form=payform, user=user)
-        
+            return render_template('LaitGood_cart/member_pay.html', payform=payform, user=user)
+         
         else:
-            if payform.validate_on_submit():
+            # 訂購人資料填寫
+            if payform.validate():
                 orderpay = order_pay(
                     username = payform.username.data,
                     email = payform.email.data,
@@ -168,13 +168,17 @@ def LaitGood_membercart():
                     address = payform.address.data,
                     pay_price = totalpricefee,
                     pay_method = payform.pay_method.data
-                )
+                    )
 
                 db.session.add(orderpay)
                 db.session.commit()
                 print('新增訂購人資料：', orderpay.username)
-            return redirect(url_for('cart.LaitGood_memberorder', pay_id=orderpay.pay_id))
-
+                return redirect(url_for('cart.LaitGood_memberorder', pay_id=orderpay.pay_id))
+                
+            else:
+                flash('請確認資料填寫正確')
+                return render_template('LaitGood_cart/member_pay.html', payform=payform, user=user)
+        
     return render_template('LaitGood_cart/member_cart.html', 
                             membercart=membercart, 
                             member=member, 
@@ -220,6 +224,7 @@ def LaitGood_memberorder(pay_id):
             print('產生訂單編號：', ordernum.order_number, '；訂單金額：', ordernum.pay.pay_price)
         
             # 產生實際訂單內容並將正式訂單存入資料庫，關聯訂單編號、會員、訂購人資料、產品內容及數量
+
             membercart = shopping_cart.query.filter_by(id=current_user.id).all() # 購物車商品列表
             cart_number = shopping_cart.query.filter_by(id=current_user.id).count() # 項目總筆數
             activity_buyonegetfree = SaleActivity.query.filter_by(id=4).first() # 行銷活動-買一送多
@@ -274,11 +279,12 @@ def LaitGood_memberorder(pay_id):
                 return redirect(url_for('cart.LaitGood_ordersearch'))
         else:
             orderlist = shopping_order.query.filter_by(ordernum_id = str(pay_id)).all()
+            return render_template('LaitGood_cart/member_order.html', ordernum=ordernum, orderlist=orderlist)
     
     except:
         flash('非常抱歉，您剛剛的訂單似乎出了點問題，詳情請洽客服！')
 
-    return render_template('LaitGood_cart/member_order.html', ordernum=ordernum, orderlist=orderlist)
+    return render_template('LaitGood_cart/member_order.html', ordernum=ordernum)
 
 # 訂單查詢頁
 @cart.route('/LaitGood_ordersearch', methods=['GET', 'POST'])

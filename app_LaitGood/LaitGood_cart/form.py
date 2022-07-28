@@ -17,7 +17,6 @@ class OrderPayForm(FlaskForm):
         ])
     cellphone = StringField(lazy_gettext('手機號碼*'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入您的手機號碼')}, validators=[
         validators.DataRequired(),
-        validators.Optional(),
         validators.Regexp("^[0][9][0-9]{8}$", message=lazy_gettext("手機格式不符"))
     ])
     phone = StringField(lazy_gettext('聯絡電話'), render_kw={'class':'searchtext', 'placeholder': lazy_gettext('請輸入您的電話號碼')}, validators=[
