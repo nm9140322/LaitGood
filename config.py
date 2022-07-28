@@ -47,7 +47,6 @@ class BaseConfig:
     UPLOADED_DEF_URL = '/static/image_upload/' # 調用文件時的連結
     # UPLOADED_DEF_URL = 'C:\\Users\\USER\\Desktop\\自學程式\\LaitGoodProject\\app_LaitGood\\static\\image_upload\\' # 調用文件時的連結
 
-    
 class DevelopmentConfig(BaseConfig): # 開發環境
     DEBUG = True 
     # SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\laitgood_register.sqlite')
