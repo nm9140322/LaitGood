@@ -103,7 +103,8 @@ def LaitGood_Contactus():
 @web.route('/LaitGood_News/<int:page>/')
 def LaitGood_News(page=1): # 預設page為1，代表以第1頁開始
     # News = Newsdata.query.all() # 回傳全部
-    News = Newsdata.query.paginate(page, 3, False) # paginate的參數：第一個page是代表頁次，第二個3代表每頁幾筆，第三個False是如果沒下一頁是否拋出異常。
+    # order_by()可以對資料進行排序
+    News = Newsdata.query.order_by(Newsdata.newsdate.desc()).paginate(page, 3, False) # paginate的參數：第一個page是代表頁次，第二個3代表每頁幾筆，第三個False是如果沒下一頁是否拋出異常。
 
     return render_template('LaitGood_web/News.html', News=News) 
 
@@ -112,6 +113,6 @@ def LaitGood_News(page=1): # 預設page為1，代表以第1頁開始
 @web.route('/LaitGood_commends', methods=['GET', 'POST'])
 @web.route('/LaitGood_commends/<int:page>/')
 def LaitGood_commends(page=1): # 預設page為1，代表以第1頁開始
-    commends = commends_data.query.paginate(page, 3, False) # paginate的參數：第一個page是代表頁次，第二個3代表每頁幾筆，第三個False是如果沒下一頁是否拋出異常。
+    commends = commends_data.query.paginate(page, 3, False) 
 
     return render_template('LaitGood_web/commends.html', commends=commends)

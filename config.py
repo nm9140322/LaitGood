@@ -45,12 +45,11 @@ class BaseConfig:
     # 檔案上傳功能，『DEF』來自實作UploadSet的參數 (__init__.py)
     UPLOADED_DEF_DEST = './app_LaitGood/static/image_upload' # 檔案上傳放置路徑
     UPLOADED_DEF_URL = '/static/image_upload/' # 調用文件時的連結
-    # UPLOADED_DEF_URL = 'C:\\Users\\USER\\Desktop\\自學程式\\LaitGoodProject\\app_LaitGood\\static\\image_upload\\' # 調用文件時的連結
 
 class DevelopmentConfig(BaseConfig): # 開發環境
     DEBUG = True 
-    # SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\laitgood_register.sqlite')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') 
+    SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\laitgood_register.sqlite')
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') 
     # 終端機設置 $env:DATABASE_URI = "mysql+pymysql://帳號:密碼@localhost:3306/laitgood_db" # MySQL
     # 終端機設置 $env:DATABASE_URI = "postgres://HEROKU的API" # HEROKU部署-pg
     
