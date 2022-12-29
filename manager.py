@@ -6,7 +6,7 @@ import os
 
 app = create_app('development') # development/production
 # app.run(host='0.0.0.0', port=os.environ.get("PORT", 5000)) # HEROKU部署不能用localhost，PORT也要抓他自己生成的
-app.run(host='39.192.182.242',port=8000)
+app.run(host='0.0.0.0',port=8000)
 # app.run()
 
 
