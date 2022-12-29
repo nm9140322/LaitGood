@@ -48,8 +48,8 @@ class BaseConfig:
 
 class DevelopmentConfig(BaseConfig): # 開發環境
     DEBUG = True 
-    # SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\laitgood_register.sqlite')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') 
+    SQLALCHEMY_DATABASE_URI = create_sqlite_uri('app_LaitGood\\static\\database\\laitgood_register.sqlite')
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') 
     # 終端機設置 $env:DATABASE_URI = "mysql+pymysql://帳號:密碼@localhost:3306/laitgood_db" # MySQL
     # 終端機設置 $env:DATABASE_URI = "postgres://HEROKU的API" # HEROKU部署-pg
     
